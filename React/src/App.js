@@ -9,13 +9,15 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<MainPage />} >
-        </Route>
+        <Route path="/" element={<MainPage />} />
 
-        <Route path="login" element={<Login />}>
-        </Route>
-          <Route path="/login/register" element={<Register/>} />
-          <Route path="/login/forgot" element={<Forgot />} />
+        <Route path="login" element={<Login />} />
+
+        <Route path="/login/register" element={<Register />} />
+        <Route path="/login/forgot" element={<Forgot />} />
+
+        
+
       </Routes>
     </>
   );
