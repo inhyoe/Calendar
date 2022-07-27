@@ -10,6 +10,10 @@ export default function Register() {
   let [insta, setInsta] = useState('')
   let [github, setGithub] = useState('')
 
+  function isNum(val){
+    return !isNaN(val)
+  }
+
   function getId(e){
     setId(e.target.value)
   }
@@ -19,8 +23,16 @@ export default function Register() {
   function getName(e){
     setName(e.target.value)
   }
+
   function getTel(e){
-    setTel(e.target.value)
+    
+    setTel((e.target.value).toString())
+    
+    if(isNaN(tel)){
+      alert('잘못된 입력입니다')
+      console.log(isNum(tel))
+      e.target.value = ''
+    }
   }
   function getEmail(e){
     setEmail(e.target.value)
@@ -34,7 +46,14 @@ export default function Register() {
 
   async function subMit(e){
     e.preventDefault()
-    const result = await axios.post('/register',{id,passwd,name,tel,email,insta,github,})
+    console.log("tel : ",tel)
+    console.log("me",(tel).toString().length)
+    
+    if((tel).toString().length !== 11){
+      return alert('전화번호 형식이 맞지 않습니다 확인해 주세요')
+    }
+    console.log(typeof tel)
+    const result = await axios.post('/register',{id,passwd,name,tel,email,insta,github})
     console.log(result)
   }
 
