@@ -1,22 +1,40 @@
 const express = require('express');
 
+
+const User = require('../models/user')
 const bcrypt = require("bcrypt");
 
 const router = express.Router();
 
-let id = { id : "asd" , pw : "asd"}
 
-router.post('/', (req,res) => {
-   if(id.id === req.body.id) {
-      console.log("login : ",req.body) 
-      if(id.pw === req.body.pw) {
-         return res.status(201).send(true)
+
+router.post('/', async (req, res) => {
+   try {
+      const user = await User.findOne({ where: { id: req.body.id } })
+      console.log("user : ", user)
+      // console.log("req.id" , req.body.id)
+      // console.log("req.passwd" , req.body.pw)     
+      // const hashPwd = await bcrypt.hash(req.body.pw,12);
+      // console.log("hashPwd" , hashPwd)
+      // console.log("user passwd",user.passwd)
+      if (user) {
+         const checkPw = await bcrypt.compare(req.body.pw, user.passwd)
+         console.log("login : ", req.body)
+         if (checkPw) {
+            return res.status(201).send(true)
+         }
+         return res.send("pw")
+
       }
-      return res.send("pw")
-      
+      return res.send("id")
+   
    }
-   res.send("id")
-})
+   catch (err) {
+      return false
+   }
+}
+
+)
 
 
 module.exports = router;

@@ -7,22 +7,23 @@ const router = express.Router();
 
 
 router.post('/',async (req,res) => {
-   const { id } = req.body
    const { passwd } = req.body;
-   const hashId = await bcrypt.hash(id ,12 );
    const hashPwd = await bcrypt.hash(passwd,12);
    let { body } = req
    console.log('this is tel',body.tel)
 
    try{
       const user = await User.create({
-        id: hashId,
+        id: body.id,
         passwd: hashPwd,
         name: body.name,
         tel: body.tel,
         email: body.email,
       })
+      console.log("등록된 유저명", user.name)
+      await res.status(201).send(true)
    }catch(e){
+      res.send(false)
       console.error(e);
    }
    

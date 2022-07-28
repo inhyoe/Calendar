@@ -38,8 +38,9 @@ app.use(session({
   name: "session-cookie",
 }));
 
-app.use(express.static(path.join(__dirname, '../React/build')))
-app.use(morgan('dev'))
+app.use(express.static(path.join(__dirname, 'React/build')))
+app.use(morgan("tiny"))
+
 app.use(express.json());
 app.use(cors());
 
