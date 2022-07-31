@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
          console.log("login : ", req.body)
          if (checkPw) {
             req.session.IsLogined = user.id;
-            return res.status(201).send(true)
+            return res.status(201).send(user)
          }
          return res.send("pw")
 

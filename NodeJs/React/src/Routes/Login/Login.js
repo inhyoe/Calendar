@@ -24,12 +24,14 @@ export default function Login() {
     
     const user = await axios.post('/login', { id, pw })
     
-    if(user.data === true){
+    if(user){
+      if(user === "pw"){
+        return  alert('pw Error')
+      }
+      axios.post('/MainPage' , user )
       navigate('/')
-    }else if(user.data === 'pw'){
-      alert('pw Error')
     }else{
-      alert('Id Error')
+      return alert('Id Error')
     }
   }
 
