@@ -21,6 +21,7 @@ router.post('/', async (req, res) => {
          const checkPw = await bcrypt.compare(req.body.pw, user.passwd)
          console.log("login : ", req.body)
          if (checkPw) {
+            req.session.IsLogined = user.id;
             return res.status(201).send(true)
          }
          return res.send("pw")
