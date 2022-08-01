@@ -2,17 +2,15 @@ import React from 'react'
 import axios from 'axios'
 import {Route,Routes , Link} from 'react-router-dom'
 export default function MainPage() {
-  let a = false
-  const data = axios.post("/MainPage").then( (res) => {
-    return res
-  } ) 
-
+  
+  const data = sessionStorage.getItem("user_id")
+  
   return (
   <div>
       <h1>메인페이지입니다</h1>
-      { a === true ? null : 
+      { data !== null ? <Link to = "/logout">로그아웃 하러가기</Link> : 
       <Link to = '/login' > 로그인 하러 가기 </Link> }
-    { console.log(data) }
+      {console.log(data)}
       {/* <Link to = '/login' > 로그인 하러 가기 </Link> */}
     </div>
 

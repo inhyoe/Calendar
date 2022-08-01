@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
          const checkPw = await bcrypt.compare(req.body.pw, user.passwd)
          console.log("login : ", req.body)
          if (checkPw) {
-            req.session.IsLogined = user.id;
+            req.session.IsLogined = user;
             return res.status(201).send(user)
          }
          return res.send("pw")
@@ -37,5 +37,9 @@ router.post('/', async (req, res) => {
 
 )
 
+router.post( '/logined', async (req,res) => {
+
+
+})
 
 module.exports = router;

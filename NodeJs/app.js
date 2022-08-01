@@ -35,7 +35,7 @@ app.use(session({
     secure: false,
     maxAge: 30000,
   },
-  name: "session-cookie",
+  name: "Id_value",
 }));
 
 app.use(express.static(path.join(__dirname, 'React/build')))

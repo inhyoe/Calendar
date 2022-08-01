@@ -28,7 +28,12 @@ export default function Login() {
       if(user === "pw"){
         return  alert('pw Error')
       }
-      axios.post('/MainPage' , user )
+      
+      
+      sessionStorage.setItem("user_id" , user.data.id)
+      sessionStorage.setItem("user_name" , user.data.name)
+      sessionStorage.setItem("user_grade" , user.data.grade)
+      
       navigate('/')
     }else{
       return alert('Id Error')
