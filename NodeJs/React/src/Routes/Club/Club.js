@@ -17,7 +17,7 @@ export default function Club() {
    const user_grade = sessionStorage.getItem("user_grade")
    const user_name = sessionStorage.getItem("user_name")
    const [time, setTime] = useState('')
-   const [date, setDate] = useState('')
+   const [toDo, setToDo] = useState('')
    const [daily, setDaily] = useState('')
    let today = new Date();
    let year = String(today.getFullYear()); // 년도
@@ -35,15 +35,16 @@ export default function Club() {
    }/* 오늘 날짜 */
    
    function setDating(e) {
-      setDate(e.target.value)
+      setToDo(e.target.value)
    }/* 오늘 할일 */
    
    
    function submit(e) {
       e.preventDefault();
-      
+      console.log("ToDo : ",toDo)
+      console.log("Daily : ",daily)
       console.log(nowDate)
-      axios.post('/club', { date, daily, user_id, user_grade, user_name ,nowDate })
+      axios.post('/club', { toDo, daily, user_id, user_grade, user_name ,nowDate })
    }
    
    

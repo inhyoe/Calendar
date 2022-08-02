@@ -37,7 +37,7 @@ const router = express.Router();
 // )
 
 router.post( '/', async (req,res) => {
-   const { date,user_id,user_grade,user_name, nowDate } = req.body
+   const { toDo,user_id,user_grade,user_name, nowDate,daily } = req.body
    
    try {
       await club.create({
@@ -45,7 +45,7 @@ router.post( '/', async (req,res) => {
          date : nowDate,
          name : user_name,
          grade : user_grade,
-         todo : date
+         todo : toDo
       })
 
       const user = await club.findOne({
