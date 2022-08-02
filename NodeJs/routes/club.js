@@ -1,11 +1,10 @@
 const express = require('express');
+const club = require('../models/club') 
 
 
-const User = require('../models/user')
 const bcrypt = require("bcrypt");
 
 const router = express.Router();
-
 
 
 // router.post('/', async (req, res) => {
@@ -38,6 +37,32 @@ const router = express.Router();
 // )
 
 router.post( '/', async (req,res) => {
+   const { date,user_id,user_grade,user_name, nowDate } = req.body
+   
+   try {
+      await club.create({
+         cluber : user_id,
+         date : nowDate,
+         name : user_name,
+         grade : user_grade,
+         todo : date
+      })
+
+      const user = await club.findOne({
+         id : user_id
+      })
+      console.log("success! ")
+      console.log("현재 시각은 : ",req.body.nowDate)
+      console.log("========================= ")
+      console.log(user)
+      res.status(201).send(user)
+   } catch (error) {
+      console.log("현재 시각은 : ",req.body.nowDate)
+      console.log("failed")
+      console.log("*****************************************")
+      console.log(error)
+      res.send(error.message)
+   }
    
 })
 

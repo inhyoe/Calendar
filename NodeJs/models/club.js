@@ -5,25 +5,24 @@ module.exports = class Club extends Sequelize.Model {
     return super.init(
       {
         
-         id: {
+         cluber: {
           type: Sequelize.STRING(300),
           primaryKey: true,
           allowNull: false,
-          unique: true,
           comment: "user id",
         },
-        name: {
-          // user name
-          type: Sequelize.STRING(200),
-          primaryKey : true,
-          allowNull: false,
-        }
-      ,
         date : {
+           primaryKey: true,
            type: Sequelize.STRING(200),
            allowNull: false,
         }
         ,
+        name: {
+          // user name
+          type: Sequelize.STRING(200),
+          allowNull: false,
+        }
+      ,
         
         grade: {
           // user grade (등급)
@@ -31,7 +30,7 @@ module.exports = class Club extends Sequelize.Model {
           allowNull: false,
           defaultValue: 1,
         },
-        
+    
         todo :{
          type: Sequelize.STRING(200),
          allowNull: false,
@@ -53,6 +52,6 @@ module.exports = class Club extends Sequelize.Model {
   }
 
   static associate(db) {
-   db.Club.belongsTo(db.User , { foreignKey: "cluber" , targetKey: "grade"})
+   db.Club.belongsTo(db.User , { foreignKey: "cluber" , targetKey: "id"})
   }
 };

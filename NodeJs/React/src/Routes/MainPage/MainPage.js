@@ -30,7 +30,7 @@ export default function MainPage() {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="#action1">Access User</Nav.Link>
+              <Nav.Link href="#/club">Access User</Nav.Link>
               <Nav.Link href="#action2">Link</Nav.Link>
 
               <Nav.Link href="#" disabled>

@@ -24,16 +24,17 @@ export default function Login() {
     
     const user = await axios.post('/login', { id, pw })
     
-    if(user !== "id"){
+    if(user !== false){
       if(user === "pw"){
         return  alert('pw Error')
-      }
-      console.log(user)
+      }else{
+      console.log("user :",user)
       sessionStorage.setItem("user_id" , user.data.id)
       sessionStorage.setItem("user_name" , user.data.name)
       sessionStorage.setItem("user_grade" , user.data.grade)
       console.log(sessionStorage.getItem("user_id") )
       navigate('/')
+      }
     }else{
       return alert('Id Error')
     }
