@@ -66,4 +66,21 @@ router.post( '/', async (req,res) => {
    
 })
 
+router.post('/request', async (req,res) =>{
+   const { user_grade } = req.body
+   
+   try {
+      const user_club = await club.findAll({
+         where : {
+            grade : user_grade
+         }
+      })
+      console.log(user_club[0].dataValues)
+      return res.send(user_club)
+   } catch (error) {
+      console.log("error : ",error)
+      return res.send(false)
+   }
+})
+
 module.exports = router;

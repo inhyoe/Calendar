@@ -4,7 +4,13 @@ module.exports = class Club extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        
+        key_number :{
+          type: Sequelize.INTEGER.UNSIGNED,
+          allowNull: false,
+          unique: true,
+          autoIncrement: true,
+        }
+        ,        
          cluber: {
           type: Sequelize.STRING(300),
           primaryKey: true,
@@ -34,7 +40,6 @@ module.exports = class Club extends Sequelize.Model {
         todo :{
          type: Sequelize.STRING(200),
          allowNull: false,
-         defaultValue : "일정 없음",
         }
          ,
         
