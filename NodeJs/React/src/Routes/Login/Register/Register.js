@@ -55,7 +55,7 @@ export default function Register() {
       return alert('전화번호 형식이 맞지 않습니다 확인해 주세요')
     }
     console.log(typeof tel)
-    const result = await axios.post('/register',{id,passwd,name,tel,email,insta,github})
+    const result = await axios.post('http://localhost:4041/register',{id,passwd,name,tel,email,insta,github})
 
     if(result.data){
       navigate('/login')

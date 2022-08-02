@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react'
 import { Route, Routes, Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -22,7 +23,7 @@ export default function Login() {
     // console.log("id는 : ", id) // id 표시
     // console.log("pw : ", pw) // pw 표시
     
-    const user = await axios.post('/login', { id, pw })
+    const user = await axios.post('http://localhost:4041/login', { id, pw })
     
     if(user !== false){
       if(user === "pw"){
