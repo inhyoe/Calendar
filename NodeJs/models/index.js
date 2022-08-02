@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 
 const User = require('./user');
+const Club = require('./club');
 // const Comment = require('./comment');
 // const Notice = require('./notice');
 // const Board = require('./board');
@@ -20,7 +21,13 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.User = User;
+db.Club = Club;
 
 User.init(sequelize);
+Club.init(sequelize);
+
+User.associate(db)
+Club.associate(db)
+
 
 module.exports = db;

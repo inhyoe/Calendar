@@ -24,16 +24,15 @@ export default function Login() {
     
     const user = await axios.post('/login', { id, pw })
     
-    if(user){
+    if(user !== "id"){
       if(user === "pw"){
         return  alert('pw Error')
       }
-      
-      
+      console.log(user)
       sessionStorage.setItem("user_id" , user.data.id)
       sessionStorage.setItem("user_name" , user.data.name)
       sessionStorage.setItem("user_grade" , user.data.grade)
-      
+      console.log(sessionStorage.getItem("user_id") )
       navigate('/')
     }else{
       return alert('Id Error')
@@ -42,6 +41,7 @@ export default function Login() {
 
   return (
     <>
+    <div id = "body">
       <section id="login-form">
         <h1>Login</h1>
         <form id='login-tag'>
@@ -62,6 +62,7 @@ export default function Login() {
           </div>
         </form>
       </section>
+      </div>
     </>
 
   )

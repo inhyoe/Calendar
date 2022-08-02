@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const LoginRouter = require('./routes/login')
 const RegisterRouter = require('./routes/register');
+const clubRouter = require('./routes/club');
 
 const app = express();
 dotenv.config();
@@ -31,7 +32,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    httpOnly: true,
+    // httpOnly: true,
     secure: false,
     maxAge: 30000,
   },
@@ -46,6 +47,7 @@ app.use(cors());
 
 app.use('/login', LoginRouter)
 app.use('/register', RegisterRouter);
+app.use('/club', clubRouter);
 
 app.listen(4041, function () {
   console.log('listening on 4041')

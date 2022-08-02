@@ -1,1 +1,7 @@
-bbbbbbbbb6vvvvvvv              6nbbbbbbb6bbbn
+import React from 'react'
+
+export default function Logout() {
+  return (
+    <div></div>
+  )
+}

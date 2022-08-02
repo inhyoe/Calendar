@@ -5,7 +5,7 @@
   padding: 0;
 }
 /* section태그 내 */
-body {
+#body {
   font-family: 'Noto Sans KR', sans-serif;
   display: flex;
   justify-content: center;
