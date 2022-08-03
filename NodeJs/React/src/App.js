@@ -17,7 +17,6 @@ function App() {
         <Route path="/login/register" element={<Register />} />
         <Route path="/login/forgot" element={<Forgot />} />
         <Route path="club" element={<Club />}/>
-        
 
       </Routes>
     </>

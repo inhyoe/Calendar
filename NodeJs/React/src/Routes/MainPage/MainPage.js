@@ -11,6 +11,7 @@ export default function MainPage() {
 
   const data = sessionStorage.getItem("user_id")
   
+
   let navigate = useNavigate()
   function distroySession() {
     sessionStorage.removeItem("user_id")
@@ -47,14 +48,14 @@ export default function MainPage() {
               />
               <Button variant="outline-success">Search</Button>
             </Form>
+            <Button variant="outline-success" style={{ marginRight: "10px", marginLeft: "10px" }}>
+
+              {data !== null ? <Nav.Link onClick={distroySession}>Logout</Nav.Link> :
+                <Nav.Link href="#/login">Login</Nav.Link>
+              }
+            </Button>
           </Navbar.Collapse>
         </Container>
-        <Button variant="outline-success" style={{ marginRight: "10px" }}>
-
-          {data !== null ? <Nav.Link onClick={distroySession}>Logout</Nav.Link> :
-            <Nav.Link href="#/login">Login</Nav.Link>
-          }
-        </Button>
       </Navbar>
     );
   }
@@ -64,9 +65,9 @@ export default function MainPage() {
       <NavScrollExample></NavScrollExample>
       <div id="body">
         <h1>메인페이지입니다</h1>
-        
-        {console.log("data : ",data)}
-        
+
+        {console.log("data : ", data)}
+
         {/* <Link to = '/login' > 로그인 하러 가기 </Link> */}
       </div>
     </div>

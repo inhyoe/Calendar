@@ -7,34 +7,6 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 
 
-// router.post('/', async (req, res) => {
-//    try {
-//       const user = await User.findOne({ where: { id: req.body.id } })
-//       console.log("user : ", user)
-//       // console.log("req.id" , req.body.id)
-//       // console.log("req.passwd" , req.body.pw)     
-//       // const hashPwd = await bcrypt.hash(req.body.pw,12);
-//       // console.log("hashPwd" , hashPwd)
-//       // console.log("user passwd",user.passwd)
-//       if (user) {
-//          const checkPw = await bcrypt.compare(req.body.pw, user.passwd)
-//          console.log("login : ", req.body)
-//          if (checkPw) {
-//             req.session.IsLogined = user;
-//             return res.status(201).send(user)
-//          }
-//          return res.send("pw")
-
-//       }
-//       return res.send("id")
-   
-//    }
-//    catch (err) {
-//       return false
-//    }
-// }
-
-// )
 
 router.post( '/', async (req,res) => {
    const { toDo,user_id,user_grade,user_name, nowDate,daily } = req.body
@@ -75,7 +47,13 @@ router.post('/request', async (req,res) =>{
             grade : user_grade
          }
       })
-      console.log(user_club[0].dataValues)
+      
+      let user_data = []
+      user_club.map((a , i) => {
+         user_data[i] = user_club[i].dataValues.date.substr(0,11)
+         user_club[i].dataValues.date = user_data[i] 
+      })
+      
       return res.send(user_club)
    } catch (error) {
       console.log("error : ",error)
