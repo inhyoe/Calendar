@@ -52,8 +52,9 @@ router.post('/request', async (req,res) =>{
       user_club.map((a , i) => {
          user_data[i] = user_club[i].dataValues.date.substr(0,11)
          user_club[i].dataValues.date = user_data[i] 
+         
       })
-      
+   
       return res.send(user_club)
    } catch (error) {
       console.log("error : ",error)

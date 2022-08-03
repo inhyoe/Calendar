@@ -86,27 +86,30 @@ export default function Club() {
    // let userTime = []  // 중복을 제거한 유저의 시간
    // let rightTime = [] // 맞는 시간을 넣어놓은 배열객체
    function searchCal() {
-      let q = {}
-      user_data.map((a, i) => {
-         for (let j = 0; j < userTime.length; j++) {
-            if(user_data[i].date == userTime[j]){
-      
-               
-               console.log('sucess')
-               console.log("map내 userTime : ",userTime[j])
-               console.log("map내 userdate : ",user_data[i].date)
-               
+
+      let array = {}
+      userTime.map((a, i) => {
+         let changedKey = userTime[i] // key값
+         console.log("changedKey : ", changedKey)
+         let changedValue = []
+         console.log("changedValue : ", changedValue)
+         for (let j = 0; j < user_data.length; j++) {
+            console.log(`userTime[${j}] : `, userTime[i])
+            console.log(`user_data[${j}] :`, user_data[j].date)
+            if (userTime[i] == user_data[j].date) {
+               console.log("유저의 시간 : ", user_data[j])
+               changedValue.push({ name: user_data[j].name, todo: user_data[j].todo })
             }
-            break;
          }
-         
+         array[changedKey] = changedValue
       })
-      console.log("userTime :" , userTime)
-      console.log("timeData : ", timeData )
-      console.log(q)
+      console.log("array 는 : ", array)
+      console.log("userTime :", userTime)
+      console.log("timeData : ", timeData)
       console.log("rightTime 배열 : ", rightTime)
    }
-   
+   /* 시간대 : [ [시간대에 맞는 유저의 이름 , 할일] ,
+               [시간대에 맞는 유저의 이름 , 할일] ] */
    async function commit() {
       const users_data = await axios.post('http://localhost:4041/club/request', { user_grade })
       console.log("users_data :", users_data.data)
@@ -117,8 +120,8 @@ export default function Club() {
 
       setUserData(users_data.data)
    }
-   concatUser()
-   searchCal()
+   // concatUser()
+   // searchCal()
 
    return (
       <div>
