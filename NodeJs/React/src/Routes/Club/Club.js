@@ -1,8 +1,7 @@
 /* eslint-disable */
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
-
-
+import './club.css'
 export default function Club() {
 
 
@@ -121,48 +120,36 @@ export default function Club() {
    concatUser()
    searchCal()
 
-   function Forloop() {
+   function Forloop(props) {
       let ARR
       let TalbeData = []
       for (let i = 0; i < Object.keys(array).length; i++) {
          ARR = array[userTime[i]]
-         TalbeData.push(
-            <table border="2">
-               <th>시간</th>
-               <th>이름</th>
-               <th>할일</th>
-               <tr>
-                  <td > {userTime[i]} </td>
-               
-                  {
-                     array[userTime[i]].map((a, k) => {
-                        return (
-                           <>
-                              <td > {array[userTime[i]][k].name} </td>
-                           </>
-                        )
-                     })
+         TalbeData.push(<>
+            {
+               array[userTime[i]].map((a, k) => {
+                  if (props.setFix == userTime[i]) {
+                     return (
+                        <>
+                        
+                        <div>Now time : {userTime[i]}</div>
+                           이름은 : {array[userTime[i]][k].name}<br/>
+                           할일은 : {array[userTime[i]][k].todo} <br />
+                        =====================================================   
+                        
+                        </>
+                     )
                   }
-               
-               
-                  {
-                     array[userTime[i]].map((a, k) => {
-                        return (
-                           <>
-                              <td > {array[userTime[i]][k].todo} </td>
-                           </>
-                        )
-                     })
-                  }
-               </tr>
-            </table>)
+               })
+            }
+         </>
+         )
       }
-      console.log(ARR)
+   
       return TalbeData
    }
-   console.log(userTime)
-   console.log("나는야 : ", array[userTime[2]])
-
+   
+   let [fix,setFix] = useState('')
    return (
       <div>
          {/* 몇월 몇일에 어떤 사람이 어떤 내용을 남겼는지 확인해 주세요. */}
@@ -174,21 +161,21 @@ export default function Club() {
          <button onClick={commit}>commited</button>
          <button onClick={concatUser}>concatuser</button>
          <button onClick={searchCal}>searchCal</button>
-         {/* {console.log("user_data : ", user_data[0])} */}
-
-
-         {
-            user_data.map((a, i) => {
+         <div>{
+            userTime.map((a, i) => {
                return <>
-                  <div key={user_data[i].date + "1"}>이름은 : {user_data[i].name}<br />
-                     할일은 : {user_data[i].todo}<br />
-                     시간은 : {user_data[i].date}</div>
+                  <button onClick={() => {
+                     
+                     setFix(userTime[i])
+                     
+                  }}>
+                     {userTime[i]}
+                  </button>
                </>
-            }
-            )
-         }
+            })
+         }</div>
 
-         <Forloop></Forloop>
+         <Forloop setFix={fix}></Forloop>
 
 
 
