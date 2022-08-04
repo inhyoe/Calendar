@@ -20,7 +20,8 @@ export default function Club() {
 
    let timeData = []  // 중복이 있는 유저의 시간
    let userTime = []  // 중복을 제거한 유저의 시간
-   let rightTime = [] // 맞는 시간을 넣어놓은 배열객체
+   let array = {} // 유저의 시간대의 시간객체
+
    /* ======================유저 시간 모음 ====================== */
    useEffect(() => {
       async function users_data() {
@@ -86,30 +87,27 @@ export default function Club() {
    // let userTime = []  // 중복을 제거한 유저의 시간
    // let rightTime = [] // 맞는 시간을 넣어놓은 배열객체
    function searchCal() {
-
-      let array = {}
       userTime.map((a, i) => {
          let changedKey = userTime[i] // key값
-         console.log("changedKey : ", changedKey)
-         let changedValue = []
-         console.log("changedValue : ", changedValue)
+         let changedValue = [] // value값
+
          for (let j = 0; j < user_data.length; j++) {
-            console.log(`userTime[${j}] : `, userTime[i])
-            console.log(`user_data[${j}] :`, user_data[j].date)
+            // console.log(`userTime[${j}] : `, userTime[i]) -> 중복을 제거한 맞는 시간
+            // console.log(`user_data[${j}] :`, user_data[j].date) -> 유저가 글을 올린 시간
             if (userTime[i] == user_data[j].date) {
-               console.log("유저의 시간 : ", user_data[j])
+               // console.log("유저의 시간 : ", user_data[j])
                changedValue.push({ name: user_data[j].name, todo: user_data[j].todo })
             }
          }
          array[changedKey] = changedValue
       })
       console.log("array 는 : ", array)
-      console.log("userTime :", userTime)
-      console.log("timeData : ", timeData)
-      console.log("rightTime 배열 : ", rightTime)
+      // console.log("userTime :", userTime)
+      // console.log("timeData : ", timeData)
    }
    /* 시간대 : [ [시간대에 맞는 유저의 이름 , 할일] ,
                [시간대에 맞는 유저의 이름 , 할일] ] */
+
    async function commit() {
       const users_data = await axios.post('http://localhost:4041/club/request', { user_grade })
       console.log("users_data :", users_data.data)
@@ -120,8 +118,50 @@ export default function Club() {
 
       setUserData(users_data.data)
    }
-   // concatUser()
-   // searchCal()
+   concatUser()
+   searchCal()
+
+   function Forloop() {
+      let ARR
+      let TalbeData = []
+      for (let i = 0; i < Object.keys(array).length; i++) {
+         ARR = array[userTime[i]]
+         TalbeData.push(
+            <table border="2">
+               <th>시간</th>
+               <th>이름</th>
+               <th>할일</th>
+               <tr>
+                  <td > {userTime[i]} </td>
+               
+                  {
+                     array[userTime[i]].map((a, k) => {
+                        return (
+                           <>
+                              <td > {array[userTime[i]][k].name} </td>
+                           </>
+                        )
+                     })
+                  }
+               
+               
+                  {
+                     array[userTime[i]].map((a, k) => {
+                        return (
+                           <>
+                              <td > {array[userTime[i]][k].todo} </td>
+                           </>
+                        )
+                     })
+                  }
+               </tr>
+            </table>)
+      }
+      console.log(ARR)
+      return TalbeData
+   }
+   console.log(userTime)
+   console.log("나는야 : ", array[userTime[2]])
 
    return (
       <div>
@@ -148,6 +188,7 @@ export default function Club() {
             )
          }
 
+         <Forloop></Forloop>
 
 
 
