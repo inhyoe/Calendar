@@ -22,6 +22,16 @@ export default function Register() {
   function isNum(val) {
     return !isNaN(val)
   }
+  function getAction(action,e){
+    var value = e.target.value
+    if(action == "getId"){
+      setId(value)
+    }else if(action == "getPwd"){
+      setPasswd(value)
+    }else if(action == "getName"){
+      setName(value)
+    }
+  }
 
   function getId(e) {
     setId(e.target.value)
@@ -34,10 +44,7 @@ export default function Register() {
   }
   function getTel(e) {
     setTel((e.target.value).toString())
-
     if (isNaN(tel)) {
-      alert('잘못된 입력입니다')
-      console.log(isNum(tel))
       e.target.value = ''
     }
   }
