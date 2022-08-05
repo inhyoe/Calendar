@@ -42,7 +42,7 @@ export default function Club() {
    }, [nowTime])
    useEffect(() => {
       async function users_datas() {
-         const users_data = await axios.post('http://localhost:4041/club/request', { user_grade })
+         const users_data = await axios.post('https://localhost:4041/club/request', { user_grade })
 
          if (users_data.data !== false) {
             setUserData(users_data.data)
