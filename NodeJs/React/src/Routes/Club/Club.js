@@ -42,7 +42,7 @@ export default function Club() {
    }, [nowTime])
    useEffect(() => {
       async function users_datas() {
-         const users_data = await axios.post('https://localhost:4041/club/request', { user_grade })
+         const users_data = await axios.post('http://localhost:4041/club/request', { user_grade })
 
          if (users_data.data !== false) {
             setUserData(users_data.data)
@@ -167,15 +167,22 @@ export default function Club() {
 
    function GetBack() {
       let Time = []
-      for (let i = 1; i < 25; i++) {
+      for (let i = 0; i < 24; i++) {
          Time.push(i)
       }
       console.log(Time)
 
       let timeList = Time.map((a, i) => {
          return <Button key={a} onClick={() => {
+            if(i == 0){
+               setNowTime(k.concat(`/00`))
+               console.log('00')
+               setFix(nowTime)
+            }else{
+               console.log(Time[i])
             setNowTime(k.concat(`/${Time[i]}`))
             setFix(nowTime)
+         }
          }
 
          } >{Time[i]}</Button>
