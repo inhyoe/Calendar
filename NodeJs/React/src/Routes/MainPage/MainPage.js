@@ -64,7 +64,7 @@ export default function MainPage() {
     <div>
       <NavScrollExample></NavScrollExample>
       <div id="body">
-        <h1>메인페이지입니다</h1>
+        <h1>Daily Select</h1>
 
         {console.log("data : ", data)}
 

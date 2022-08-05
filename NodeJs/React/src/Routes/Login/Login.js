@@ -6,6 +6,8 @@ import "./Login.css"
 
 export default function Login() {
   let navigate = useNavigate()
+  
+  
 
   const [id, SetId] = useState('')
   const [pw, SetPw] = useState('')
@@ -24,15 +26,16 @@ export default function Login() {
     // console.log("pw : ", pw) // pw 표시
     
     const user = await axios.post('http://localhost:4041/login', { id, pw })
+    const user_data = user.data;
     
-    if(user !== false){
-      if(user === "pw"){
+    if(user_data !== false){
+      if(user_data === "pw"){
         return  alert('pw Error')
       }else{
-      console.log("user :",user)
-      sessionStorage.setItem("user_id" , user.data.id)
-      sessionStorage.setItem("user_name" , user.data.name)
-      sessionStorage.setItem("user_grade" , user.data.grade)
+      
+      sessionStorage.setItem("user_id" , user_data.id)
+      sessionStorage.setItem("user_name" , user_data.name)
+      sessionStorage.setItem("user_grade" , user_data.grade)
       console.log(sessionStorage.getItem("user_id") )
       navigate('/')
       }

@@ -1,6 +1,20 @@
 /* eslint-disable */
+// let timeData = []  // 중복이 있는 유저의 시간
+// let userTime = []  // 중복을 제거한 유저의 시간
+// let rightTime = [] // 맞는 시간을 넣어놓은 배열객체
+
+
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import moment from 'moment';
+// 안써도 자동으로 한국 시간을 불러온다. 명확하게 하기 위해 import
+import 'moment/locale/ko';
+import Button from 'react-bootstrap/Button';
+
+
+
 export default function Club() {
 
 
@@ -8,117 +22,113 @@ export default function Club() {
    const user_grade = sessionStorage.getItem("user_grade")
    const user_name = sessionStorage.getItem("user_name")
 
-   const [toDo, setToDo] = useState('')
-   const [daily, setDaily] = useState('')
-   const [user_data, setUserData] = useState([])
-   const [InputUserData, setInputUserData] = useState([])
+   let [toDo, setToDo] = useState('')
+   let [daily, setDaily] = useState('')
+   let [user_data, setUserData] = useState([])
+   let [InputUserData, setInputUserData] = useState([])
 
    const inputDate = useRef(null)
    const inputCal = useRef(null)
 
-   let timeData = []  // 중복이 있는 유저의 시간
+   
    let userTime = []  // 중복을 제거한 유저의 시간
    let array = {} // 유저의 시간대의 시간객체
-
+   
+   
    /* ======================유저 시간 모음 ====================== */
    useEffect(() => {
-      async function users_data() {
+      async function users_datas() {
          const users_data = await axios.post('http://localhost:4041/club/request', { user_grade })
-
+         
          if (users_data.data !== false) {
-            console.log("userEffect내의 users_data :", users_data.data)
             setUserData(users_data.data)
          } else {
             setUserData([InputUserData])
          }
       }
-      users_data()
-   }, [])
+      users_datas()
+      
+   }, [InputUserData])
+   
+   useEffect(() =>{
+      console.log("유즈 이펙트 내의 : ",user_data)
+      setUserData(user_data)
+   }, [InputUserData])
 
-   let today = new Date();
-   let year = String(today.getFullYear()); // 년도
-   let month = String(today.getMonth() + 1);  // 월
-   let dately = String(today.getDate());  // 날짜
-   let hour = String(today.getHours()); // 시
-   let minutes = String(today.getMinutes());  // 분
-   let seconds = String(today.getSeconds());  // 초
+   useEffect(() =>{
+      setFix(moment(value).format("YYYY/MM/DD"))
+      console.log(fix)
+      console.log("why me?")
+   },)
+   overLapTimeDelUser()    // bug
+   matchUserTime()         // bug
 
-   let nowDate = year + "/" + month + "/" + dately + "/" + hour + "/" + minutes + "/" + seconds;
-
-   // let mytime = new Date()
-   // mytime = String(mytime.toLocaleString()).split('. ')
-   // mytime[4] = 
-   // console.log(String(mytime.toLocaleDateString()))
-   // console.log(mytime)
-   //  -> 나중에 봅시다...
-
-
-
+   
+   
    function setDailing(e) {
       setDaily(e.target.value)
    }/* 오늘 날짜 */
-
+   
    function setDating(e) {
       setToDo(e.target.value)
    }/* 오늘 할일 */
-
-
-   function submit(e) {
+   
+   
+   
+   async function submit(e) {
       e.preventDefault();
       let Input = [toDo, daily, user_id, user_grade, user_name, nowDate]
+      overLapTimeDelUser()
+      matchUserTime()
+      
+      var DATE = moment()
+      let nowDate = DATE.format("YY/MM/DD/HH/mm/ss")
+      
       setInputUserData(Input)
       inputDate.current.value = ''
       inputCal.current.value = ''
-      console.log(InputUserData)
-      axios.post('http://localhost:4041/club', { toDo, daily, user_id, user_grade, user_name, nowDate })
+      
+      const users_data = await axios.post('http://localhost:4041/club', { toDo, daily, user_id, user_grade, user_name, nowDate })
+
+      console.log("submit의 :", users_data.data)
+
+      setUserData(users_data.data)
+      if (users_data.data == false) {
+         return alert("no Todo in Your Club")
+      }
+      
    }
 
-   function concatUser() { // 유저간 타임이 맞는 함수
+   function overLapTimeDelUser() { // 유저간 타임이 맞는 함수
+      let timeData = []  // 중복이 있는 유저의 시간
       user_data.map((a, i) => {
          timeData.push(user_data[i].date)
       })
       const set = new Set(timeData) // set객체 이용
       userTime = [...set] // 중복 제거
-      console.log("맞는 유저 시간 : ", userTime)
+      // console.log("overLapTimeDelUser Run!")
    }
-   // let timeData = []  // 중복이 있는 유저의 시간
-   // let userTime = []  // 중복을 제거한 유저의 시간
-   // let rightTime = [] // 맞는 시간을 넣어놓은 배열객체
-   function searchCal() {
+
+   function matchUserTime() {
       userTime.map((a, i) => {
          let changedKey = userTime[i] // key값
          let changedValue = [] // value값
 
-         for (let j = 0; j < user_data.length; j++) {
-            // console.log(`userTime[${j}] : `, userTime[i]) -> 중복을 제거한 맞는 시간
-            // console.log(`user_data[${j}] :`, user_data[j].date) -> 유저가 글을 올린 시간
-            if (userTime[i] == user_data[j].date) {
-               // console.log("유저의 시간 : ", user_data[j])
+         for (let j = 0; j < user_data.length; j++)
+            if (userTime[i] == user_data[j].date) 
                changedValue.push({ name: user_data[j].name, todo: user_data[j].todo })
-            }
-         }
+         
          array[changedKey] = changedValue
       })
-      console.log("array 는 : ", array)
-      // console.log("userTime :", userTime)
-      // console.log("timeData : ", timeData)
+      // console.log("matchUserTime Run!")
    }
+
+   
    /* 시간대 : [ [시간대에 맞는 유저의 이름 , 할일] ,
                [시간대에 맞는 유저의 이름 , 할일] ] */
 
-   async function commit() {
-      const users_data = await axios.post('http://localhost:4041/club/request', { user_grade })
-      console.log("users_data :", users_data.data)
-
-      if (users_data.data == false) {
-         return alert("no Todo in Your Club")
-      }
-
-      setUserData(users_data.data)
-   }
-   concatUser()
-   searchCal()
-
+   
+   
    function Forloop(props) {
       let ARR
       let TalbeData = []
@@ -131,7 +141,7 @@ export default function Club() {
                      return (
                         <>
                         
-                        <div>Now time : {userTime[i]}</div>
+                        <div key={a}>Now time : {userTime[i]}</div>
                            이름은 : {array[userTime[i]][k].name}<br/>
                            할일은 : {array[userTime[i]][k].todo} <br />
                         =====================================================   
@@ -149,32 +159,35 @@ export default function Club() {
    }
    
    let [fix,setFix] = useState('')
+   const [value, onChange] = useState(new Date());
    return (
       <div>
          {/* 몇월 몇일에 어떤 사람이 어떤 내용을 남겼는지 확인해 주세요. */}
          <form>
             <input ref={inputDate} placeholder='날자을 입력해 주세요' onChange={setDailing}></input>
             <input ref={inputCal} placeholder='일정을 입력해 주세요' onChange={setDating}></input>
-            <button type='submit' onClick={submit}>submit</button>
+            <Button variant="outline-primary" type='submit' onClick={submit}>Submit</Button>
          </form>
-         <button onClick={commit}>commited</button>
-         <button onClick={concatUser}>concatuser</button>
-         <button onClick={searchCal}>searchCal</button>
          <div>{
             userTime.map((a, i) => {
                return <>
-                  <button onClick={() => {
-                     
-                     setFix(userTime[i])
-                     
-                  }}>
-                     {userTime[i]}
-                  </button>
+               <Button variant="outline-success" key = {a} onClick = {() => {
+                  setFix(userTime[i])
+                  console.log("click me")
+               }}>{userTime[i]}</Button>
                </>
             })
          }</div>
 
-         <Forloop setFix={fix}></Forloop>
+         <Calendar onChange={onChange} value={value} />
+         <div className="text-gray-500 mt-4">
+           <button onClick={() => {
+              setFix(moment(value).format("YYYY/MM/DD"))``
+   
+              console.log("click me")
+            }}>{moment(value).format("YYYY/MM/DD")} </button>
+         </div>
+            <Forloop setFix={fix}></Forloop>
 
 
 
