@@ -191,7 +191,6 @@ export default function Club() {
             console.log("tempK : ",tempK)
             setRealNowTime(tempK)
             
-            
          }
          
       } >{Time[i]}</Button>
