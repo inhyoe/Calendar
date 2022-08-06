@@ -38,8 +38,10 @@ export default function Club() {
 
    /* ======================유저 시간 모음 ====================== */
    useEffect(() => {
-   
+      console.log("nowTime값은 ", nowTime)
    }, [nowTime])
+
+   
    useEffect(() => {
       async function users_datas() {
          const users_data = await axios.post('http://localhost:4041/club/request', { user_grade })
@@ -59,9 +61,7 @@ export default function Club() {
       setUserData(user_data)
    }, [InputUserData])
 
-   useEffect(() => {
-      setFix(moment(value).format("YYYY/MM/DD"))
-   }, [fix])
+   
    overLapTimeDelUser()    // bug
    matchUserTime()         // bug
 
@@ -133,24 +133,23 @@ export default function Club() {
 
       let TalbeData = []
       for (let i = 0; i < Object.keys(array).length; i++) {
-         console.log("Forloop array :  ", array)
-         console.log("ForLoop setFix : ", props.setFix)
-         console.log("ForLoop userTime : ", userTime)
-         console.log(userTime[1])
-         console.log(props.setFix === userTime[1])
+         // console.log("Forloop array :  ", array)
+         
+         // console.log("ForLoop userTime : ", userTime)
+         // console.log(userTime[1])
+         
          TalbeData.push(<>
             {
                array[userTime[i]].map((a, k) => {
-                  if (props.setFix === userTime[i]) {
+                  console.log(realNowTime)
+                  console.log(userTime[i])
+                  if (realNowTime === userTime[i]) {
                      return (
                         <>
-
                            <div key={a}>Now time : {userTime[i]}</div>
                            이름은 : {array[userTime[i]][k].name}<br />
                            할일은 : {array[userTime[i]][k].todo} <br />
-
                            =====================================================
-
                         </>
                      )
                   }
@@ -158,43 +157,53 @@ export default function Club() {
             }
          </>
          )
-         console.log("TalbeData : ", TalbeData)
-         console.log("=================================")
+         // console.log("TalbeData : ", TalbeData)
+         // console.log("=================================")
       }
 
       return TalbeData
    }
 
+   let Time = []
+   let [realNowTime, setRealNowTime] = useState('')
    function GetBack() {
-      let Time = []
+      let setTime = []
+      let tempTime = [] // 유저의 중복된 값이 들어간 임시 배열
       for (let i = 0; i < 24; i++) {
-         Time.push(i)
+         userTime.map((a, k) => {
+            if(nowTime === userTime[k].substring(8,0)){
+               tempTime.push(userTime[k].substr(9)) // 시간만 들어감
+            }
+         })
+         setTime = new Set(tempTime)
+         Time = [...setTime] // Set 객체로 바뀐 Time을 다시 배열로 바꿔줌.
       }
-      console.log(Time)
-
+      console.log("GetBackFun in Time", Time)
+      console.log("GetBackFun in tempTime",tempTime)
+      console.log("userTime : ", userTime)
+      
       let timeList = Time.map((a, i) => {
          return <Button key={a} onClick={() => {
-            if(i == 0){
-               setNowTime(k.concat(`/00`))
-               console.log('00')
-               setFix(nowTime)
-            }else{
-               console.log(Time[i])
-            setNowTime(k.concat(`/${Time[i]}`))
-            setFix(nowTime)
+            console.log("time : ",Time)
+            console.log("Time List : ", Time[i])
+            console.log("RealNowTime : ",realNowTime)
+            let tempK = nowTime.concat(`/${Time[i]}`)
+            console.log("tempK : ",tempK)
+            setRealNowTime(tempK)
+            
+            
          }
-         }
-
-         } >{Time[i]}</Button>
-      })
-
-      return timeList
+         
+      } >{Time[i]}</Button>
+   })
+   console.log("outLineTime",Time);
+   
+   return timeList
    }
+   
 
-
-   console.log("array", array)
-   let [fix, setFix] = useState('')
-   let [k, setK] = useState('')
+   
+   
    const [value, onChange] = useState(new Date());
    return (
       <div>
@@ -208,24 +217,25 @@ export default function Club() {
             userTime.map((a, i) => {
                return <>
                   <Button variant="outline-success" key={a} onClick={() => {
-                     setFix(userTime[i])
+                     
                   }}>{userTime[i]}</Button>
                </>
             })
          }</div>
 
          <Calendar onChange={onChange} value={value} />
-         <div className="text-gray-500 mt-4">
+         <div>
             <button onClick={() => {
-               setK(moment(value).format("YY/MM/DD"))
-               setNowTime(k)
+               
+               setNowTime(moment(value).format("YY/MM/DD"))
                console.log("시간클릭 : ", nowTime);
+               console.log("외안됨 ?")
                timeBoolean == true ? setTimeBoolean(false) : setTimeBoolean(true);
 
             }}>{moment(value).format("YYYY/MM/DD")} </button>
          </div>
          {timeBoolean == true ? <GetBack></GetBack> : null}
-         <Forloop setFix={fix}></Forloop>
+         <Forloop ></Forloop>
 
 
 
