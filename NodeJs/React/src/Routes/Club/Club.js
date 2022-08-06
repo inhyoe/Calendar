@@ -60,9 +60,10 @@ export default function Club() {
       console.log("유즈 이펙트 내의 : ", user_data)
       setUserData(user_data)
    }, [InputUserData])
-
+   // useEffect(matchUserTime)
+   // useEffect(overLapTimeDelUser)
    
-   overLapTimeDelUser()    // bug
+   overLapTimeDelUser()
    matchUserTime()         // bug
 
 
@@ -141,14 +142,16 @@ export default function Club() {
          TalbeData.push(<>
             {
                array[userTime[i]].map((a, k) => {
-                  console.log(realNowTime)
-                  console.log(userTime[i])
+                  // console.log(realNowTime)
+                  // console.log(userTime[i])
+                  
                   if (realNowTime === userTime[i]) {
                      return (
                         <>
-                           <div key={a}>Now time : {userTime[i]}</div>
+                           <div key={a.todo}>Now time : {userTime[i]}</div>
                            이름은 : {array[userTime[i]][k].name}<br />
                            할일은 : {array[userTime[i]][k].todo} <br />
+                           {console.log("a.todo : ",a.todo)}
                            =====================================================
                         </>
                      )
