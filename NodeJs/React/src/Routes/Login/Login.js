@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState } from 'react'
-import { Route, Routes, Link, useNavigate } from 'react-router-dom'
+import { Route, Routes, Link, useNavigate,Outlet } from 'react-router-dom'
 import axios from 'axios'
 import "./Login.css"
 
@@ -68,6 +68,7 @@ export default function Login() {
         </form>
       </section>
       </div>
+      <Outlet></Outlet>
     </>
 
   )
