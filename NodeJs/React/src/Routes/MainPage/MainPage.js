@@ -39,7 +39,7 @@ export default function MainPage() {
                 Link
               </Nav.Link>
             </Nav>
-            <Form className="d-flex">
+            {/* <Form className="d-flex">
               <Form.Control
                 type="search"
                 placeholder="Search"
@@ -47,7 +47,7 @@ export default function MainPage() {
                 aria-label="Search"
               />
               <Button variant="outline-success">Search</Button>
-            </Form>
+            </Form> */}
             <Button variant="outline-success" style={{ marginRight: "10px", marginLeft: "10px" }}>
 
               {data !== null ? <Nav.Link onClick={distroySession}>Logout</Nav.Link> :
@@ -65,9 +65,6 @@ export default function MainPage() {
       <NavScrollExample></NavScrollExample>
       <div id="body">
         <h1>Daily Select</h1>
-
-        {console.log("data : ", data)}
-
         {/* <Link to = '/login' > 로그인 하러 가기 </Link> */}
       </div>
     </div>

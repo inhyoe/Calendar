@@ -72,4 +72,11 @@ router.post('/request', async (req,res) =>{
    }
 })
 
+router.post('/del', async (req,res) =>{
+   const { deleteArray } = req.body
+   console.log(deleteArray)
+   console.log(deleteArray[0].key)
+   const delUpdate = await club.destroy({where : { key_number : deleteArray[0].key }})
+   res.send()
+})
 module.exports = router;
