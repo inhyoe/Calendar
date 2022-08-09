@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
+import { useNavigate } from 'react-router-dom';
 import DB from '../../db/db'
 import "../../Login/Login.css"
 
@@ -10,7 +11,7 @@ export default function Forgot() {
   let [inputId, setInputId] = useState('');
   let [inputGroup, setInputGroup] = useState('');
   let [inputPw, setInputPw] = useState('');
-
+  let navigate = useNavigate()
   // Action에 따라 state를 수정함.
   function getAction(action, e) {
     var value = e.target.value
@@ -36,16 +37,27 @@ export default function Forgot() {
   //   console.log(id)
   // }, [id])
 
+  function goLogin(trueF, name){
+    console.log(trueF)
+    if(trueF.data === true){
+      alert(`${name}가 바뀌었습니다. 로그인 페이지로 이동합니다`)
+      navigate('/login')
+    }else{
+      alert('옳지 않은 정보입니다')
+    }
+  }
+
   // 이 함수는 아이디를 잊어버렸을 때 서버에게 유저가 입력한 데이터를 보내고
   // 그 데이터가 맞으면, 서버에 저장된 데이터를 받아오는 값 8/6일 6:30분 [유창훈]
   async function GetId() {
 
     const user = await axios.post(`${DB.host}login/forgot/id`, { name: inputId, grade: inputGroup })
-    console.log("user : ", user)
+    goLogin(user,'아이디')
   }
   async function GetPw() {
     const user = await axios.post(`${DB.host}login/forgot/pw`, { name: inputId, grade: inputGroup, pw: inputPw })
     console.log("user : ", user)
+    goLogin(user,'비밀번호')
   }
 
   // ======================= 컴포넌트 ===============================

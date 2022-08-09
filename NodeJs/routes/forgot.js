@@ -13,7 +13,7 @@ router.post('/id', async (req, res) => {
       const { name, grade } = req.body
       const user = await User.findOne({ where: { name, grade } })
 
-      console.log(user.dataValues)
+      console.log(true)
       res.send(user.dataValues.id)
    } catch (error) {
       res.send('error')
@@ -31,8 +31,9 @@ router.post('/pw', async (req, res) => {
       console.log(pw)
       const hashPwd = await bcrypt.hash( pw , 12);
       
-      const updateUser = await User.update( {passwd : hashPwd}, { where: { name } })
-      console.log(updateUser)
+      await User.update( {passwd : hashPwd}, { where: { name } })
+      
+      
 
       res.send(true)
    } catch (error) {
