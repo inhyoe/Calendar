@@ -5,7 +5,7 @@
 
 
 import axios from 'axios'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
@@ -31,18 +31,19 @@ export default function Club() {
    let [nowTime, setNowTime] = useState('') // 시간이 나온 버튼을 클릭 시 유저의 일정이 담긴 시간이 들어감
    let [changeArray, setChangeArray] = useState({})
    let [deleteArray, setDeleteArray] = useState('');
-   let [falsetrue , setFalseTrue] = useState(false);
-
+   let [falsetrue, setFalseTrue] = useState(false);
+   let [timerun,setTimerun] = useState(true)
    const inputDate = useRef(null)
    const inputCal = useRef(null)
 
 
    let [userTime, setUserTime] = useState([])  // 중복을 제거한 유저의 시간
    let array = {} // 유저의 시간대의 시간객체
-   
+
    /* ======================유저 시간 모음 ====================== */
+
    useEffect(() => {
-      if(falsetrue){
+      if (falsetrue) {
          const users_data = axios.post(`${DB.host}club/del`, { deleteArray })
       }
       // console.log("============================up")
@@ -52,23 +53,35 @@ export default function Club() {
       // console.log("useEffect in array : " , array)
       // console.log("useEffect in DelArray :" , deleteArray)
       // console.log("============================downs")
-      
-   },[deleteArray])
-
+      console.log('run Array');
+   }, [deleteArray])
    useEffect(() => {
-      async function users_datas() {
-         const users_data = await axios.post(`${DB.host}club/request`, { user_grade })
-
-         if (users_data.data !== false) {
-            setUserData(users_data.data)
+      axios.post(`${DB.host}club/request`, { user_grade }).then((res) => {
+         console.log(res.data);
+         if (res.data) {
+            setUserData(res.data)
          } else {
-            setUserData([InputUserData])
+            alert('error')
          }
-      }
-      users_datas()
-
+      })
+      console.log('users_datas_ run');
    }, [InputUserData])
-
+   // useEffect(() => {
+   //    if(user_data){
+   //    matchUserTime()
+   //    overLapTimeDelUser()
+   //    }
+   // }, [user_data])
+   useEffect(() => {
+      if(timerun == false){
+         setChangeArray(array)
+         matchUserTime()
+         overLapTimeDelUser()
+      }
+      console.log("array : ",array);
+      console.log("changeArray : ", changeArray);
+      console.log('setChange Run');
+   },[timerun])
    // useEffect(() => {
    //    console.log("유즈 이펙트 내의 : ", user_data)
    //    setUserData(user_data)
@@ -107,10 +120,11 @@ export default function Club() {
    }
 
    function overLapTimeDelUser() { // 유저간 타임이 맞는 함수
+      console.log('overLapTimeDelUser run');
       let timeData = []  // 중복이 있는 유저의 시간
       // console.log("overLapTimeDelUser in user_data : ", user_data)
       user_data.map((a, i) => {
-         
+
          timeData.push(user_data[i].date)
       })
 
@@ -120,23 +134,24 @@ export default function Club() {
    // overLapTimeDelUser()
    // matchUserTime
    function matchUserTime() {
-      // console.log("matchUserTime user_data : ", user_data)
-      // console.log("matchUserTime userTime : ", userTime)
+      console.log('imrun');
+      console.log("matchUserTime user_data : ", user_data)
+      console.log("matchUserTime userTime : ", userTime)
       userTime.map((a, i) => {
          let changedKey = userTime[i] // key값
          let changedValue = [] // value값
          // console.log("matchUserTime in user_data : ", user_data)
-         
+
          // console.log("matchUserTime in user_data.length", user_data.length)
          for (let j = 0; j < user_data.length; j++) {
-            
+
             if (userTime[i] === user_data[j].date)
                changedValue.push({ key: user_data[j].key_number, name: user_data[j].name, todo: user_data[j].todo })
          }
 
          array[changedKey] = changedValue
       })
-      
+      console.log("match userTime : ",array);
    }
 
 
@@ -144,25 +159,22 @@ export default function Club() {
                [시간대에 맞는 유저의 이름 , 할일] ] */
 
    function deleteCal(i, k, userTime) { // i = forLoop outArray ,k = changeArray.map 
-      console.log("i : ",i, "k : ",k)
+      console.log("i : ", i, "k : ", k)
       console.log(userTime[i][k])
-      console.log("before Array",array)
+      console.log("before Array", array)
       console.log(`array[${userTime[i]}][${k}]는 :`, array[userTime[i]][k])
       let result = array[userTime[i]].splice(k, 1)
-      // console.log("result : ",result)
-      console.log("array : ",array)
+      console.log("array : ", array)
       let copyArray = array
       setChangeArray(copyArray)
       setDeleteArray(result)
-      if(falsetrue === false)
+      if (falsetrue === false)
          setFalseTrue(true)
 
    }
    function Forloop() {
 
       let TalbeData = []
-      
-      
       for (let i = 0; i < Object.keys(changeArray).length; i++) {
          // console.log('ForLoop in for Run!')
          TalbeData.push(<>
@@ -177,12 +189,12 @@ export default function Club() {
                            <div key={a.todo}>Now time : {userTime[i]}</div>
                            이름은 : {changeArray[userTime[i]][k].name}<br />
                            할일은 : {changeArray[userTime[i]][k].todo} <br />
-                           
+
                            <button onClick={() => {
                               deleteCal(i, k, userTime)
                               console.log(`im Runned ! ${k}`)
                            }}>Delete</button><br />
-                           
+
                            =====================================================
                         </>
                      )
@@ -201,7 +213,6 @@ export default function Club() {
    let Time = []
    let [realNowTime, setRealNowTime] = useState('')
    function GetBack() {
-      matchUserTime();
       // console.log("GetBack() in userTime : ", userTime)
       // console.log("GetBack() in nowTime : ", nowTime)
       let setTime = []
@@ -222,6 +233,11 @@ export default function Club() {
             console.log("time : ", Time)
             console.log("Time List : ", Time[i])
             console.log("RealNowTime : ", realNowTime)
+            if(timerun === true)
+            setTimerun(false)
+            else
+            setTimerun(true)
+            console.log(timerun);
             setRealNowTime(nowTime.concat(`/${Time[i]}`))
             setChangeArray(array)
          }
@@ -231,7 +247,7 @@ export default function Club() {
       return timeList
    }
 
-
+   
 
 
    const [value, onChange] = useState(new Date());
@@ -247,7 +263,7 @@ export default function Club() {
             userTime.map((a, i) => {
                return <>
                   <Button variant="outline-success" key={a} onClick={() => {
-
+                     
                   }}>{userTime[i]}</Button>
                </>
             })
