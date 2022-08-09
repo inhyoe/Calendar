@@ -57,7 +57,7 @@ export default function Club() {
 
    useEffect(() => {
       async function users_datas() {
-         const users_data = await axios.post('http://localhost:4041/club/request', { user_grade })
+         const users_data = await axios.post(`${DB.host}club/request`, { user_grade })
 
          if (users_data.data !== false) {
             setUserData(users_data.data)
@@ -95,7 +95,7 @@ export default function Club() {
       inputDate.current.value = ''
       inputCal.current.value = ''
 
-      const users_data = await axios.post('http://localhost:4041/club', { toDo, daily, user_id, user_grade, user_name, nowDate })
+      const users_data = await axios.post(`${DB.host}club`, { toDo, daily, user_id, user_grade, user_name, nowDate })
 
       console.log("submit의 :", users_data.data)
 
