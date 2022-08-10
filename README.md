@@ -1,5 +1,8 @@
 # 2022.7.20 Starting Project
-
+  - Code Creator inyoe 
+    - github : https://github.com/inhyoe
+  - Idea provider : moditory
+    - github : https://github.com/Motitory?tab=following
 ## 2022.8.4 Tabling ClubUser
   - 유저가 올린 데이터를 시간에 맞는 유저끼리 공유할 수 있도록 테이블링 했습니다
   - css는 아직 작성하지 않고 띄우는 것에 의의를 둡니다
@@ -40,4 +43,3 @@
   ### 앞으로의 업데이트 사항
     - 먼저 이제 유저가 시간을 입력할 수 있도록 하겠습니다.
     - 그다음 스타일링을 하겠습니다.
-    
