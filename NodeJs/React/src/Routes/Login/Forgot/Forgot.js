@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import DB from '../../db/db'
@@ -16,13 +16,13 @@ export default function Forgot() {
   function getAction(action, e) {
     var value = e.target.value
     console.log(value)
-    if (action == "getId") {
+    if (action === "getId") {
       console.log("idChange")
       setInputId(value)
-    } else if (action == "getGroup") {
+    } else if (action === "getGroup") {
       console.log("GroupChange")
       setInputGroup(value)
-    } else if (action == "getPw") {
+    } else if (action === "getPw") {
       setInputPw(value)
     }
   }
@@ -73,51 +73,51 @@ export default function Forgot() {
   }
   // Id찾기 컴포넌트
 
-  const SearchId = React.memo(function SearchId() {
-    return (
-      <>
-        <div>아이디 찾기 창</div>
-        <form >
-          <input type="text" name="id" id="id" autoComplete="off" onChange={(e) => { getAction("getId", e) }} required />
-          <label htmlFor="id">id</label>
-          <input type="text" name="group" id="group" autoComplete="off" onChange={(e) => { getAction("getGroup", e) }} required />
-          <label htmlFor="group">group</label>
-          {/* <input onChange={() => GetId(e.target.value)}></input> */}
-          <button onClick={
-            (e) => {
-              e.preventDefault();
-              GetId()
-            }
-          }>보내기</button>
-        </form>
-      </>
-    )
-  })
-  function SearchPw() {
-    return (
-      <>
-        <div>비밀번호 찾기 창</div>
-        <form>
-          <input type="text" name="id" id="id" autoComplete="off" onChange={(e) => { getAction("getId", e) }} required />
-          <label htmlFor="id">id</label>
-          <input type="text" name="group" id="group" autoComplete="off" onChange={(e) => { getAction("getPw", e) }} required />
-          <label htmlFor="group">group</label>
+  // const SearchId = React.memo(function SearchId() {
+  //   return (
+  //     <>
+  //       <div>아이디 찾기 창</div>
+  //       <form >
+  //         <input type="text" name="id" id="id" autoComplete="off" onChange={(e) => { getAction("getId", e) }} required />
+  //         <label htmlFor="id">id</label>
+  //         <input type="text" name="group" id="group" autoComplete="off" onChange={(e) => { getAction("getGroup", e) }} required />
+  //         <label htmlFor="group">group</label>
+  //         {/* <input onChange={() => GetId(e.target.value)}></input> */}
+  //         <button onClick={
+  //           (e) => {
+  //             e.preventDefault();
+  //             GetId()
+  //           }
+  //         }>보내기</button>
+  //       </form>
+  //     </>
+  //   )
+  // })
+  // function SearchPw() {
+  //   return (
+  //     <>
+  //       <div>비밀번호 찾기 창</div>
+  //       <form>
+  //         <input type="text" name="id" id="id" autoComplete="off" onChange={(e) => { getAction("getId", e) }} required />
+  //         <label htmlFor="id">id</label>
+  //         <input type="text" name="group" id="group" autoComplete="off" onChange={(e) => { getAction("getPw", e) }} required />
+  //         <label htmlFor="group">group</label>
 
-          <button onClick={
-            (e) => {
-              e.preventDefault();
-              GetId()
-            }
-          }>보내기</button>
-        </form>
-      </>
-    )
-  } // -> 컴포넌트들
+  //         <button onClick={
+  //           (e) => {
+  //             e.preventDefault();
+  //             GetId()
+  //           }
+  //         }>보내기</button>
+  //       </form>
+  //     </>
+  //   )
+  // } // -> 컴포넌트들
   return (
     <>
       <div>무엇을 잊어버리셨나요?</div>
-      {id === '' || id == true ? <GetBtn el={"id"} first={true} second={false} ></GetBtn> : null}
-      {pw === '' || pw == true ? <GetBtn el={"pw"} first={false} second={true}></GetBtn> : null}
+      {id === '' || id === true ? <GetBtn el={"id"} first={true} second={false} ></GetBtn> : null}
+      {pw === '' || pw === true ? <GetBtn el={"pw"} first={false} second={true}></GetBtn> : null}
       {id === true ? <>
         <div>아이디 찾기 창</div>
         <form >

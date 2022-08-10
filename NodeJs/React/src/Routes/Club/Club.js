@@ -13,6 +13,7 @@ import moment from 'moment';
 import 'moment/locale/ko';
 import Button from 'react-bootstrap/Button';
 import DB from '../db/db'
+import NavScroll from '../db/NavFun'
 
 
 
@@ -23,13 +24,13 @@ export default function Club() {
    const user_grade = sessionStorage.getItem("user_grade")
    const user_name = sessionStorage.getItem("user_name")
 
-   let [toDo, setToDo] = useState('')
-   let [daily, setDaily] = useState('')
-   let [user_data, setUserData] = useState([])
-   let [InputUserData, setInputUserData] = useState([])
-   let [timeBoolean, setTimeBoolean] = useState(false)
+   
+   let [daily, setDaily] = useState('') // 유저가 입력한 날짜 
+   let [user_data, setUserData] = useState([]) // 유저의 데이터 - 항시 업데이트
+   let [InputUserData, setInputUserData] = useState([]) // 유저가 입력한 데이터
+   let [timeBoolean, setTimeBoolean] = useState(false) // getBack함수를 실행시키기 위한 임시 변수
    let [nowTime, setNowTime] = useState('') // 시간이 나온 버튼을 클릭 시 유저의 일정이 담긴 시간이 들어감
-   let [changeArray, setChangeArray] = useState({})
+   let [changeArray, setChangeArray] = useState({}) // 유저의 데이터가 업데이트 될 때 ForLoop에 값을 전달하는 값
    let [deleteArray, setDeleteArray] = useState('');
    let [falsetrue, setFalseTrue] = useState(false);
    let [tf, setTf] = useState(true);
@@ -65,17 +66,13 @@ export default function Club() {
 
          if (users_data.data !== true) {
             setUserData(users_data.data)
-            console.log('imrun')
-            console.log("+=============================+")      
          }
          setTf(false)
-         console.log("서버의 데이터 : ", users_data.data)
+
       }
       users_datas()
-      
       array = changeArray
-      console.log("array : ", array)
-      console.log("user_data : ", user_data)
+      
    }, [InputUserData])
    useEffect(() => {
       if (tf === false) {
@@ -100,21 +97,20 @@ export default function Club() {
       e.preventDefault();
       let toDo = inputCal.current.value
       let Input = [toDo, daily, user_id, user_grade, user_name, nowDate]
-      setToDo(toDo);
+      // setToDo(toDo);
       var DATE = moment()
       let nowDate = DATE.format("YY/MM/DD/HH/mm/ss")
       const users_data = await axios.post(`${DB.host}club`, { toDo, daily, user_id, user_grade, user_name, nowDate })
       
       setInputUserData(Input)
-      
-      inputCal.current.value = ''
-      setUserData(users_data.data) // 유저의 데이터가 바뀔 때 뭘 해야함.
-      setTf(true)
+      setUserData(users_data.data) 
       setChangeArray(array)
+
       if (users_data.data == false) {
          return alert("no Todo in Your Club")
       }
       setTf(true)
+      inputCal.current.value = ''
    }
    
    function overLapTimeDelUser() { // 유저간 타임이 맞는 함수
@@ -251,6 +247,7 @@ export default function Club() {
    const [value, onChange] = useState(new Date());
    return (
       <div>
+         <NavScroll></NavScroll>
          {/* 몇월 몇일에 어떤 사람이 어떤 내용을 남겼는지 확인해 주세요. */}
          <form>
             

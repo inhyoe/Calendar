@@ -1,10 +1,11 @@
 /* eslint-disable */
 import React, { useState } from 'react'
 import { Route, Routes, Link, useNavigate,Outlet } from 'react-router-dom'
+import NavScroll from '../db/NavFun'
 import axios from 'axios'
 import "./Login.css"
 import DB from '../db/db'
-
+/* eslint-disable */
 export default function Login() {
   let navigate = useNavigate()
   
@@ -47,6 +48,7 @@ export default function Login() {
 
   return (
     <>
+    <NavScroll></NavScroll>
     <div id = "body">
       <section id="login-form">
         <h1>Login</h1>

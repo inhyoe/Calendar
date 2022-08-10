@@ -3,9 +3,11 @@ import MainPage from './Routes/MainPage/MainPage';
 import Register from './Routes/Login/Register/Register';
 import Forgot from './Routes/Login/Forgot/Forgot.js';
 import Club from './Routes/Club/Club.js';
-import Club2 from './Routes/Club/club2.js';
-import { Routes, Route, Outlet, /* Outlet, useParams, */ } from 'react-router-dom'
+// import Club2 from './Routes/Club/club2.js';
+import { Routes, Route, /* Outlet, useParams, */ } from 'react-router-dom'
 import React from 'react';
+import Notice from './Routes/Notice/Notice.js';
+import NewPost from './Routes/Notice/NewPost.js';
 
 function App() {
   return (
@@ -18,7 +20,10 @@ function App() {
         <Route path="/login/register" element={<Register />} />
         
         <Route path="club" element={<Club />}/>
-        <Route path="club2" element={<Club2 />}/>
+        <Route path="notice" element={<Notice />}/>
+        <Route path="notice/newpost/:" element={<NewPost />}/>
+
+        {/* <Route path="club2" element={<Club2 />}/> */}
 
       </Routes>
     </>

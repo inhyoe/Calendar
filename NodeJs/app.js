@@ -9,7 +9,7 @@ const LoginRouter = require('./routes/login')
 const RegisterRouter = require('./routes/register');
 const clubRouter = require('./routes/club');
 const ForgotRouter = require('./routes/forgot');
-
+const NoticeRouter = require('./routes/notice');
 const app = express();
 dotenv.config();
 
@@ -50,6 +50,7 @@ app.use('/login', LoginRouter)
 app.use('/register', RegisterRouter);
 app.use('/club', clubRouter);
 app.use('/login/forgot',ForgotRouter)
+app.use('/notice' , NoticeRouter)
 
 app.listen(4041, function () {
   console.log('listening on 4041')
