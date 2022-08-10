@@ -21,6 +21,24 @@ router.post('/', async (req, res) => {
    }
 }
 )
+// router.post('/', async (req, res) => {
+//    console.log("반응옴")
+//    res.send('hi')
+// })
+router.post('/writepost', async (req, res) => {
+   try {
+      let { NoticerId, user_name , title, main_text } = req.body;
+      let us = await Notice.create({
+         title,
+         main_text,
+         NoticerId
+      })
+      console.log(us)
+      res.send('hi')
+   } catch (error) {
+      res.send(error)
+   }
+})
 
 
 module.exports = router;

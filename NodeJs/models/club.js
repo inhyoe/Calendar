@@ -34,7 +34,7 @@ module.exports = class Club extends Sequelize.Model {
           // user grade (등급)
           type: Sequelize.STRING(200),
           allowNull: false,
-          defaultValue: 1,
+          defaultValue: 2,
         },
     
         todo :{
