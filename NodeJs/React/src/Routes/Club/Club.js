@@ -34,14 +34,15 @@ export default function Club() {
    let [falsetrue, setFalseTrue] = useState(false);
    let [tf, setTf] = useState(true);
 
-   const inputDate = useRef(null)
-   const inputCal = useRef(null)
+   
+   const inputCal = useRef()
 
 
    let [userTime, setUserTime] = useState([])  // 중복을 제거한 유저의 시간
    let array = {}
 
    /* ======================유저 시간 모음 ====================== */
+
    useEffect(() => {
       if (falsetrue) {
          const users_data = axios.post(`${DB.host}club/del`, { deleteArray })
@@ -65,15 +66,14 @@ export default function Club() {
          if (users_data.data !== true) {
             setUserData(users_data.data)
             console.log('imrun')
-            console.log("+=============================+")
-            
+            console.log("+=============================+")      
          }
          setTf(false)
          console.log("서버의 데이터 : ", users_data.data)
       }
       users_datas()
-      console.log("+=============================+")
-
+      
+      array = changeArray
       console.log("array : ", array)
       console.log("user_data : ", user_data)
    }, [InputUserData])
@@ -88,29 +88,27 @@ export default function Club() {
       console.log("tf값",tf);
    }, [tf])
 
-   function setDailing(e) {
-      setDaily(e.target.value)
-   }/* 오늘 날짜 */
+   // function setDailing(e) {
+   //    setDaily(e.target.value)
+   // }/* 오늘 날짜 */
 
-   function setDating(e) {
-      setToDo(e.target.value)
-   }/* 오늘 할일 */
+   // function setDating(e) {
+   //    setToDo(e.target.value)
+   // }/* 오늘 할일 */
 
    async function submit(e) {
       e.preventDefault();
+      let toDo = inputCal.current.value
       let Input = [toDo, daily, user_id, user_grade, user_name, nowDate]
-
-
+      setToDo(toDo);
       var DATE = moment()
       let nowDate = DATE.format("YY/MM/DD/HH/mm/ss")
-
-      setInputUserData(Input)
-      inputDate.current.value = ''
-      inputCal.current.value = ''
       const users_data = await axios.post(`${DB.host}club`, { toDo, daily, user_id, user_grade, user_name, nowDate })
-
-      setUserData(users_data.data)
-      // 유저의 데이터가 바뀔 때 뭘 해야함.
+      
+      setInputUserData(Input)
+      
+      inputCal.current.value = ''
+      setUserData(users_data.data) // 유저의 데이터가 바뀔 때 뭘 해야함.
       setTf(true)
       setChangeArray(array)
       if (users_data.data == false) {
@@ -255,8 +253,8 @@ export default function Club() {
       <div>
          {/* 몇월 몇일에 어떤 사람이 어떤 내용을 남겼는지 확인해 주세요. */}
          <form>
-            <input ref={inputDate} placeholder='날자을 입력해 주세요' onChange={setDailing}></input>
-            <input ref={inputCal} placeholder='일정을 입력해 주세요' onChange={setDating}></input>
+            
+            <input ref={inputCal} placeholder='일정을 입력해 주세요'></input>
             <Button variant="outline-primary" type='submit' onClick={submit}>Submit</Button>
          </form>
          <div>{
