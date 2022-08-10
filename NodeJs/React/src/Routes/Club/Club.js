@@ -39,7 +39,7 @@ export default function Club() {
 
 
    let [userTime, setUserTime] = useState([])  // 중복을 제거한 유저의 시간
-   let [array, setArray] = useState({}) // 유저의 시간대의 시간객체
+   let array = {}
 
    /* ======================유저 시간 모음 ====================== */
    useEffect(() => {
@@ -49,8 +49,9 @@ export default function Club() {
       // console.log("============================up")
       // console.log("falsetrue :" , falsetrue)
       // console.log("useEffect in changeArray : " , changeArray)
-      setArray(changeArray)
-
+      // setArray(changeArray)
+      array = changeArray
+      
       // console.log("useEffect in array : " , array)
       // console.log("useEffect in DelArray :" , deleteArray)
       // console.log("============================downs")
@@ -84,6 +85,7 @@ export default function Club() {
          overLapTimeDelUser()
          matchUserTime()
       }
+      console.log("tf값",tf);
    }, [tf])
 
    function setDailing(e) {
@@ -107,16 +109,16 @@ export default function Club() {
       inputCal.current.value = ''
       const users_data = await axios.post(`${DB.host}club`, { toDo, daily, user_id, user_grade, user_name, nowDate })
 
-      console.log("submit의 :", users_data.data)
-
       setUserData(users_data.data)
+      // 유저의 데이터가 바뀔 때 뭘 해야함.
+      setTf(true)
       setChangeArray(array)
       if (users_data.data == false) {
          return alert("no Todo in Your Club")
       }
       setTf(true)
    }
-
+   
    function overLapTimeDelUser() { // 유저간 타임이 맞는 함수
       let timeData = []  // 중복이 있는 유저의 시간
       user_data.map((a, i) => {
@@ -128,10 +130,9 @@ export default function Club() {
    }
 
    function matchUserTime() {
-      console.log("matchUserTime user_data : ", user_data)
-      
+      // console.log("matchUserTime user_data : ", user_data)
       userTime.map((a, i) => {
-         let updateValue = {}
+         
          let changedKey = userTime[i] // key값
          let changedValue = [] // value값
          // console.log("matchUserTime in user_data : ", user_data)   
@@ -141,55 +142,46 @@ export default function Club() {
             if (userTime[i] === user_data[j].date)
                changedValue.push({ key: user_data[j].key_number, name: user_data[j].name, todo: user_data[j].todo })
          }
-         updateValue[changedKey] = changedValue
-         console.log("upValue : ",updateValue)
+         // console.log();
+         // updateValue[changedKey] = changedValue
+         // console.log("upValue : ",updateValue)
          
-         // setArray((current) => ({
-         //   ...current , changedKey : changedValue
-         // }));
-
+         // console.log("myarray : ",myarray);
+         
+         array[changedKey] = changedValue
+         
       })
-      console.log("matchUserTime in user_array : ", array)
+      
+      // console.log("matchUserTime in user_array : ", array)
    }
 
 
    /* 시간대 : [ [시간대에 맞는 유저의 이름 , 할일] ,
                [시간대에 맞는 유저의 이름 , 할일] ] */
 
-   // function deleteCal(i, k, userTime) { // i = forLoop outArray ,k = changeArray.map 
-   //    console.log("i : ", i, "k : ", k)
-   //    console.log(userTime[i][k])
-   //    console.log("before Array", array)
-   //    console.log(`array[${userTime[i]}][${k}]는 :`, array[userTime[i]][k])
-   //    let result = array[userTime[i]].splice(k, 1)
-   //    // console.log("result : ",result)
-   //    console.log("array : ", array)
-   //    let copyArray = array
+   function deleteCal(i, k, userTime) { // i = forLoop outArray ,k = changeArray.map 
+      // console.log("i : ", i, "k : ", k)
+      // console.log(userTime[i][k])
+      // console.log("before Array", array)
+      // console.log(`array[${userTime[i]}][${k}]는 :`, array[userTime[i]][k])
+      let result = array[userTime[i]].splice(k, 1)
+      // console.log("result : ",result)
+      // console.log("array : ", array)
+      let copyArray = array
 
-   //    setChangeArray(copyArray)
-   //    setDeleteArray(result)
-   //    if (falsetrue === false)
-   //       setFalseTrue(true)
+      setChangeArray(copyArray)
+      setDeleteArray(result)
+      if (falsetrue === false)
+         setFalseTrue(true)
 
-   // }
+   }
    function Forloop() {
-
+      console.log("forLoop Run");
       let TalbeData = []
-      console.log("ForLoop User :", user_data)
-      console.log("ForLoop realNowTime : ", realNowTime)
-      console.log("ForLoop userTime : ", userTime)
-      console.log("ForLoop changeArray : ", changeArray)
-      console.log("=========================")
-      console.log("=========================")
-      console.log("=========================")
-      console.log("=========================")
-      console.log("=========================")
-      console.log("=========================")
-      console.log("=========================")
-      console.log("=========================")
-      console.log("=========================")
-      console.log("=========================")
-      console.log("=========================")
+      // console.log("ForLoop User :", user_data)
+      // console.log("ForLoop realNowTime : ", realNowTime)
+      // console.log("ForLoop userTime : ", userTime)
+      
       for (let i = 0; i < Object.keys(changeArray).length; i++) {
          // console.log('ForLoop in for Run!')
          TalbeData.push(<>
@@ -244,12 +236,8 @@ export default function Club() {
       }
       // console.log("GetBackFun in Time", Time)
 
-      let timeList = Time.map((a, i) => {
+      let timeList = Time.map((a, i) => { // 유저가 입력한 시간을 나타내는 버튼
          return <Button key={a} onClick={() => {
-            console.log("time : ", Time)
-            console.log("Time List : ", Time[i])
-            console.log("RealNowTime : ", realNowTime)
-
             setRealNowTime(nowTime.concat(`/${Time[i]}`))
             setChangeArray(array)
          }
@@ -288,7 +276,7 @@ export default function Club() {
                setNowTime(moment(value).format("YY/MM/DD"))
                overLapTimeDelUser();
 
-               console.log("시간클릭 : ", nowTime);
+               // console.log("시간클릭 : ", nowTime);
                timeBoolean == true ? setTimeBoolean(false) : setTimeBoolean(true);
 
             }}>{moment(value).format("YYYY/MM/DD")} </button>
