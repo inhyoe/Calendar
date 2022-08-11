@@ -9,9 +9,9 @@ export default function NewPostBtn() {
       navigate('/notice/writepost')
    }
   return (
-    <>
+    <div className="float-right">
       {/* 유저의 권한이 있는지 체크하여 있다면 글작성 버튼을 표시. */}
-      {data === '2' ? <Button onClick = {clicked} variant="outline-info" >글작성</Button> : null}
-    </>
+      {data === '2' ? <Button  onClick = {clicked} variant="outline-info" >글작성</Button> : null}
+    </div>
   )
 }

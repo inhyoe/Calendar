@@ -8,6 +8,7 @@ import { Routes, Route, /* Outlet, useParams, */ } from 'react-router-dom'
 import React from 'react';
 import Notice from './Routes/Notice/Notice.js';
 import NewPost from './Routes/Notice/WritePost.js';
+import ShowPost from './Routes/Notice/ShowPost.js';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route path="club" element={<Club />}/>
         <Route path="notice" element={<Notice />}/>
         <Route path="notice/writepost" element={<NewPost />}/>
-
+        <Route path="notice/*" element={<ShowPost />}/>
         {/* <Route path="club2" element={<Club2 />}/> */}
 
       </Routes>

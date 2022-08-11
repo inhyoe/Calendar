@@ -5,24 +5,31 @@ import NavScroll from '../db/NavFun'
 import DB from '../db/db'
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function NewPost() {
 
   let title = useRef()
   let mainText = useRef()
+  let navigate = useNavigate()
   const [checked, setChecked] = useState(false);
   const user_id = sessionStorage.getItem("user_id")
   const user_name = sessionStorage.getItem("user_name")
   async function subMit(e) {
     e.preventDefault();
     console.log(title.current.value)
-    
+
     let InputTitle = title.current.value
     let InputMainText = mainText.current.value
-    console.log(`${DB.host}writepost`)
-    const user = await axios.post(`${DB.host}notice/writepost`,{ NoticerId : user_id , user_name, title : InputTitle , main_text : InputMainText})
-    console.log(user)
     
+    const user = await axios.post(`${DB.host}notice/writepost`, { NoticerId: user_id, user_name, title: InputTitle, main_text: InputMainText })
+    if(user.data === true) {
+      navigate('/notice')
+    }else{
+      console.log(user.data);
+      alert("실패하였습니다")
+    }
+
   }
   return (
     <div>
@@ -51,10 +58,10 @@ export default function NewPost() {
               value="1"
               onClick={subMit}
             >
-              Checked
+              글작성
             </ToggleButton>
 
-            {/* <button id="btn" type="submit" onClick={subMit}>LOGIN</button> */}
+            
 
           </form>
         </section>

@@ -35,6 +35,10 @@ module.exports = class Notice extends Sequelize.Model {
                type: Sequelize.STRING(4000),
                allowNull: false,
             },
+            view_count:{
+               type : Sequelize.INTEGER.UNSIGNED,
+               defaultValue : 0,
+            }
          },
          {
             sequelize,
