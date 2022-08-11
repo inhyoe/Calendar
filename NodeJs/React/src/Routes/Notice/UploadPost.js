@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react'
 import DB from '../db/db';
 import { useNavigate } from 'react-router-dom';
 import "./Notice.css"
-import styled from "styled-components"
 export default function UploadPost() {
    let navigate = useNavigate()
    useEffect(() => {

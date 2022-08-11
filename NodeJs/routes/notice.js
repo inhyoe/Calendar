@@ -70,4 +70,17 @@ router.post('/:idx',async (req, res) => {
       res.send(error)
    }
 })
+router.post('/delete/:idx',async (req, res) => {
+   try {
+      const { idx } = req.params;
+      await Notice.destroy({
+         where : { idx }
+      })
+      
+      res.send(true)
+   } catch (error) {
+      console.log(error);
+      res.send(false)
+   }
+})
 module.exports = router;

@@ -1,12 +1,14 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import DB from '../db/db'
 import NavScroll from '../db/NavFun'
+import Button from 'react-bootstrap/Button';
 
 export default function ShowPost() {
    let par = useParams()
    let params = par["*"]
+   let navigate = useNavigate()
    useEffect(() => {
       axios.post(`${DB.host}notice/${params}`).then(
          (res) => {
@@ -14,12 +16,21 @@ export default function ShowPost() {
          }
       )
    }, [])
-   async function a() {
-      let me = await axios.post(`${DB.host}notice/${params}`)
-      console.log(me);
-   }
+   
    let [post, setPost] = useState([])
-   console.log(post);
+   
+   function deleteBtn(){
+      axios.post(`${DB.host}notice/delete/${params}`).then((res) => {
+         if(res.data === true){
+            alert('글이 삭제되었습니다')
+            navigate('/notice')
+         }else{
+            alert('알수없는 오류로 글이 삭제되지 않았습니다')
+            navigate('/notice')
+         }
+      })
+   }
+   
    return (
       <div>
          <NavScroll></NavScroll>
@@ -38,8 +49,8 @@ export default function ShowPost() {
                   </h5>
                </div>
             </table>
+            <Button  onClick = {deleteBtn} variant="outline-info">글삭제</Button>
          </div>
-         <button onClick={a}>asd</button>
       </div>
    )
 }
