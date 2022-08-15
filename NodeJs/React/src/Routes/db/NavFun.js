@@ -11,9 +11,9 @@ export default function NavFun() {
       sessionStorage.removeItem("user_id")
       sessionStorage.removeItem("user_name")
       sessionStorage.removeItem("user_grade")
-  
       navigate('/')
     }
+    
    return (
       <Navbar bg="light" expand="lg">
          <Container fluid>
@@ -25,9 +25,8 @@ export default function NavFun() {
                   style={{ maxHeight: '100px' }}
                   navbarScroll
                >
-                  <Nav.Link href="#/club">Access User</Nav.Link>
+                  <Nav.Link href="#/club">Calendar</Nav.Link>
                   <Nav.Link href="#/notice">Notice</Nav.Link>
-
                   <Nav.Link href="#" disabled>
                      Link
                   </Nav.Link>

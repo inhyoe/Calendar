@@ -16,7 +16,8 @@
     "path": "^0.12.7",
     "sequelize": "^6.21.3",
     "sequelize-cli": "^6.4.1",
-    "sf": "^0.2.0"
+    "sf": "^0.2.0",
+    "socket.io": "^4.5.1"
   },
   "scripts": {
     "start": "nodemon app.js"

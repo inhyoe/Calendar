@@ -31,6 +31,7 @@ export default function ShowPost() {
          }
       })
    }
+   // console.log(post.main_text);
 
    return (
       <div>
@@ -44,12 +45,12 @@ export default function ShowPost() {
                      <th className="td-created-at" scope="col">작성일 : {post.created_at}</th>
                   </tr>
                </thead>
-               <div>
+            </table>
+               <div className='w-100'>
                   <h5 className='m-5'>
                      {post.main_text}
                   </h5>
                </div>
-            </table>
             { grade === '2' ? <Button onClick = {deleteBtn} variant="outline-info">글삭제</Button> : null }
          </div>
       </div>

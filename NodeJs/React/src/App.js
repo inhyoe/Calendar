@@ -9,10 +9,14 @@ import React from 'react';
 import Notice from './Routes/Notice/Notice.js';
 import NewPost from './Routes/Notice/WritePost.js';
 import ShowPost from './Routes/Notice/ShowPost.js';
+import Chat from './Routes/Chatting/chat.js';
+
 
 function App() {
+  
   return (
     <>
+    
       <Routes>
         <Route path="/" element={<MainPage />} />
 
@@ -24,9 +28,11 @@ function App() {
         <Route path="notice" element={<Notice />}/>
         <Route path="notice/writepost" element={<NewPost />}/>
         <Route path="notice/*" element={<ShowPost />}/>
+        <Route path="chat" element={<Chat />}/>
         {/* <Route path="club2" element={<Club2 />}/> */}
 
       </Routes>
+      
     </>
   );
 }

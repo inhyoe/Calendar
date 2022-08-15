@@ -14,10 +14,12 @@
     "react-bootstrap": "^2.4.0",
     "react-calendar": "^3.7.0",
     "react-dom": "^18.2.0",
+    "react-query": "^4.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^2.1.8",
     "react-use": "^17.4.0",
     "serve": "^14.0.1",
+    "socket.io-client": "^4.5.1",
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },

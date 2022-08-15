@@ -62,7 +62,7 @@ router.post('/:idx',async (req, res) => {
          userTime = sf("{0}년 {1}월 {2}일",`${userTime[0]}`,`${userTime[1]}`,`${userTime[2]}`)
          post.dataValues.created_at = userTime
       
-      console.log(post);
+      console.log("Post 는 ",post);
       
       res.send(post)
    } catch (error) {

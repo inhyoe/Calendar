@@ -14,6 +14,8 @@ import 'moment/locale/ko';
 import Button from 'react-bootstrap/Button';
 import DB from '../db/db'
 import NavScroll from '../db/NavFun'
+import { useNavigate } from 'react-router-dom';
+
 
 
 
@@ -23,7 +25,7 @@ export default function Club() {
    const user_id = sessionStorage.getItem("user_id")
    const user_grade = sessionStorage.getItem("user_grade")
    const user_name = sessionStorage.getItem("user_name")
-
+   let navigate = useNavigate()
    
    let [daily, setDaily] = useState('') // 유저가 입력한 날짜 
    let [user_data, setUserData] = useState([]) // 유저의 데이터 - 항시 업데이트
@@ -43,7 +45,12 @@ export default function Club() {
    let array = {}
 
    /* ======================유저 시간 모음 ====================== */
-
+   useEffect(() => {
+      if(user_id === null) {
+         alert('Please Login')
+         navigate('/login')
+      }
+   })
    useEffect(() => {
       if (falsetrue) {
          const users_data = axios.post(`${DB.host}club/del`, { deleteArray })
@@ -57,7 +64,6 @@ export default function Club() {
       // console.log("useEffect in array : " , array)
       // console.log("useEffect in DelArray :" , deleteArray)
       // console.log("============================downs")
-
    }, [deleteArray])
    
    useEffect(() => {
