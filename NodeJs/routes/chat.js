@@ -1,7 +1,7 @@
 const Chat = require('../models/chat');
 const User = require('../models/user')
 const bcrypt = require("bcrypt");
-
+const _ = require('lodash');
 const http = require("http");
 const express = require("express");
 const app = express();
@@ -23,18 +23,52 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
-
+let user_list = []
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
-  userList.push(socket.id);
-  console.log(userList);
-  socket.on("send_message", (data) => {
-   console.log("sended message : ",data);
-   console.log(data.opponent); 
-    io.emit("receive_message", 'ㅎㅇㅇ')
-    console.log('성공 !');
+  
+  socket.on('user_id' , (data) => {
+    data["socket_id"] = socket.id
+    user_list.push(data)
+    for( let i = 0; i < user_list.length; i++ ){
+      for( let k = i+1; k < user_list.length; k ++){
+        if( user_list[i].user_id === user_list[k].user_id ){
+          user_list.splice(i,1)
+        }
+      }
+    }
+    console.log("Last : ",user_list);
+    
 
-  });
+  } )
+  function searchUser(id){
+    
+  }
+  try {
+    socket.on("send_message", (data) => {
+      data["socketId"] = socket.id
+      console.log("sended message : ",data);
+      console.log("user_list 는 :",user_list);
+  
+      // 만약 상대방이 접속하지 않았을 때에는?
+      // DB에 단순히 socket.id를 저장하지 말고, data를 저장하자
+      console.log(data.opponent);
+      
+      let matchUser = user_list.filter((datas) => {
+        return datas.user_id === data.opponent
+      })
+      // filter는 조건이 맞는 배열 객체를 찾아 배열로 리턴해줌
+      console.log(matchUser[0]);
+      io.to(matchUser[0].socket_id).emit("receive_message", data.message)
+      console.log('성공 !');
+    });
+  } catch (error) {
+    
+  }
+  socket.on("disconnect",() => {
+      socket.disconnect()
+
+   });
    
 });
 

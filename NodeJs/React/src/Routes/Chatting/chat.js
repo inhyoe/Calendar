@@ -28,21 +28,22 @@ export default function chat() {
    };
   
    const sendMessage = () => {
-    //  socket.emit('user_name', { user_id })
-    //  socket.emit('opponent', { opponent : inputOpponent.current.value })
-    //  socket.emit("send_message",{ message : message.current.value } )
+    
     socket.emit('send_message' , { user_id , opponent : inputOpponent.current.value, message : message.current.value })
    };
- 
+   
+   useEffect(() => {
+    socket.emit('user_id' , { user_id })
+   },[])
    useEffect(() => {
      socket.on("receive_message", (data) => {
       console.log('im run');
         console.log(data);
-       setMessageReceived(data.message);
+       setMessageReceived(data);
      });
    }, [socket]);
 
-   console.log("메시지 : ",messageReceived);
+   console.log(messageReceived);
   return (
     <div>
       <NavFun></NavFun>
@@ -51,9 +52,10 @@ export default function chat() {
          <div className = "center-block border border-success border-5" style={{float : 'right', width :"70%", height: '700px'}}>
           <input ref={message} placeholder = "메세지"></input> <br/>
           <input ref={inputOpponent} placeholder = "유저이름"></input>
+          <p>{messageReceived}ㅎㅇ</p>
+      <button onClick= {sendMessage}>보내기</button>
          </div>
       </div>
-      <button onClick= {sendMessage}>보내기</button>
       <Footer></Footer>
     </div>
   )
