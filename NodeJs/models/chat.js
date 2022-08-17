@@ -20,7 +20,6 @@ module.exports = class Chat extends Sequelize.Model {
          chater_name : {
             type : Sequelize.DataTypes.STRING(20),
             allowNull : false,
-            
          }
          ,
          grade: {

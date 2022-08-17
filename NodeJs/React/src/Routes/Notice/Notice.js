@@ -9,7 +9,7 @@ export default function Notice() {
    useEffect(() => {
       axios.post(`${DB.host}notice`)
       console.log("im runnning");
-   })
+   },[])
   return (
     <div>
       <NavScroll></NavScroll>

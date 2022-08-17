@@ -11,9 +11,14 @@ export default function NavFun() {
       sessionStorage.removeItem("user_id")
       sessionStorage.removeItem("user_name")
       sessionStorage.removeItem("user_grade")
+      alert('로그아웃 되었습니다.')
       navigate('/')
     }
-    
+    function isLog(){
+         if(data === null) {
+            alert('Please Login')
+         }
+    }
    return (
       <Navbar bg="light" expand="lg">
          <Container fluid>
@@ -25,11 +30,10 @@ export default function NavFun() {
                   style={{ maxHeight: '100px' }}
                   navbarScroll
                >
-                  <Nav.Link href="#/club">Calendar</Nav.Link>
-                  <Nav.Link href="#/notice">Notice</Nav.Link>
-                  <Nav.Link href="#" disabled>
-                     Link
-                  </Nav.Link>
+                  
+                  <Nav.Link href={data === null ? "#/login" : "#/club"} onClick={isLog}>Calendar</Nav.Link>
+                  <Nav.Link href={data === null ? "#/login" : "#/notice" }onClick={isLog}>Notice</Nav.Link>
+                  <Nav.Link href={data === null ? "#/login" : "#/chat"} onClick={isLog}>Chat</Nav.Link>
                </Nav>
                <Button variant="outline-success" style={{ marginRight: "10px", marginLeft: "10px" }}>
 

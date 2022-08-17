@@ -3,7 +3,7 @@ import React from 'react';
 import { useQuery, useMutation, queryCache } from "react-query";
 import axios from 'axios';
 
-export default function userChat() {
+export default function userChat(props) {
    const user_id = sessionStorage.getItem("user_id")
    const user_grade = sessionStorage.getItem("user_grade")
    const user_name = sessionStorage.getItem("user_name")
@@ -30,8 +30,8 @@ export default function userChat() {
             alignItems: 'center'
          }}>
             <div className = "px-2" style={{width: '100%'}}>
-               <img src="img/puc.png" className="rounded-circle m-1" style={{ float: 'left', width: '20%' }} />
-               <p>이름</p>
+               <img src="img/puc.png" className="rounded-circle m-1" style={{ float: 'left', width: '30%' }} />
+               <p>{props.opponent}</p>
                <p>최근 채팅</p>
             </div>
          </div> {/* << = 반복될 div박스 */}
