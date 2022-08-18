@@ -7,7 +7,6 @@ import DB from '../db/db'
 import FirstLoad from './FirstLoad'
 import axios from 'axios'
 import myDB from '../db/db'
-import { relative } from 'path'
 
 
 const socket = io(`${DB.chatServer}`)
@@ -15,10 +14,8 @@ console.log(socket);
 // io서버 주소
 
 export default function chat() {
-  //Room State
 
   let message = useRef('')
-  let inputOpponent = useRef('')
   let regist = useRef('')
   // Messages States
   const user_id = sessionStorage.getItem("user_id")

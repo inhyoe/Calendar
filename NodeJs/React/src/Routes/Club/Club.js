@@ -14,6 +14,7 @@ import 'moment/locale/ko';
 import Button from 'react-bootstrap/Button';
 import DB from '../db/db'
 import NavScroll from '../db/NavFun'
+import SelectTime from './SelectTime'
 import { useNavigate } from 'react-router-dom';
 
 
@@ -50,7 +51,7 @@ export default function Club() {
          alert('Please Login')
          navigate('/login')
       }
-   })
+   },[])
    useEffect(() => {
       if (falsetrue) {
          const users_data = axios.post(`${DB.host}club/del`, { deleteArray })
@@ -90,14 +91,6 @@ export default function Club() {
       }
       console.log("tf값",tf);
    }, [tf])
-
-   // function setDailing(e) {
-   //    setDaily(e.target.value)
-   // }/* 오늘 날짜 */
-
-   // function setDating(e) {
-   //    setToDo(e.target.value)
-   // }/* 오늘 할일 */
 
    async function submit(e) {
       e.preventDefault();
@@ -276,11 +269,10 @@ export default function Club() {
 
                setNowTime(moment(value).format("YY/MM/DD"))
                overLapTimeDelUser();
-
-               // console.log("시간클릭 : ", nowTime);
                timeBoolean == true ? setTimeBoolean(false) : setTimeBoolean(true);
 
             }}>{moment(value).format("YYYY/MM/DD")} </button>
+            {timeBoolean == true ? <SelectTime></SelectTime> : null}   
          </div>
          {timeBoolean == true ? <GetBack></GetBack> : null}
          <Forloop ></Forloop>
