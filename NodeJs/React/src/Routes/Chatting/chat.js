@@ -5,6 +5,9 @@ import UserChat from './userChat'
 import io from 'socket.io-client'
 import DB from '../db/db'
 import FirstLoad from './FirstLoad'
+import axios from 'axios'
+import myDB from '../db/db'
+import { relative } from 'path'
 
 
 const socket = io(`${DB.chatServer}`)
@@ -21,64 +24,69 @@ export default function chat() {
   const user_id = sessionStorage.getItem("user_id")
   const user_grade = sessionStorage.getItem("user_grade")
   const user_name = sessionStorage.getItem("user_name")
-  
-  let [opponent, setOpponent] = useState('')
-  let [storageMsg, setStorageMsg] = useState([])
+  let [firstData, setFirstData] = useState([])
+  let [opponent, setOpponent] = useState([])
+  let [clickedOp, setClickedOp] = useState('') // 클릭된 상대방
   const sendMessage = () => {
-
-    socket.emit('send_message', { user_id, user_name, user_grade, opponent, message: message.current.value })
+    socket.emit('send_message', { user_id, user_name, user_grade, opponent: clickedOp, message: message.current.value })
   };
-
   useEffect(() => {
+    axios.post(`${myDB.host}chat/bringdata`, { user_id }).then(
+      (res) => {
+        console.log(res.data);
+        setOpponent(res.data);
+      }
+    ) // 상대방 불러오기
     socket.emit('user_id', { user_id })
   }, [])
   useEffect(() => {
     let arr = []
     socket.on("receive_message", (data) => {
       console.log('im run');
-      console.log(data);
-      //  setOpponent(data.opponent); 
-      //  setMessageReceived(data.message);
-      data.map((a, i) => {
-        let newUser = {}
-        newUser["created_at"] = a.created_at
-        newUser["user_id"] = a.chater_name;
-        newUser['user_message'] = a.message;
-        arr.push(newUser)
-      })
-      setStorageMsg(arr)
+      console.log("data : ", data);
+      // firstData를 바꿔줘야함.
+      console.log("firstData : ", firstData);
+      setFirstData((prev) => [...prev, data])
       arr = []
-      console.log("arr : ",arr);
+      console.log("arr : ", arr);
     });
+    
   }, [socket]);
 
-  
-  console.log("storageMSg : ", storageMsg);
-
-  function registOppenet(){
-    setOpponent(regist.current.value)
+  const onClick = () =>{
+    socket.emit('send_message', { user_id, user_name, user_grade, opponent: clickedOp, message: message.current.value })
   }
+
+  const onKeyPress = (e) =>{
+    if(e.key == 'Enter') {
+      onClick();
+    }
+  }
+  
+  function registOppenet() {
+    setOpponent(prev => [...prev, regist.current.value])
+  }
+  
   return (
     <div>
       <NavFun></NavFun>
-      <div className='container mt-5 mb-5' style={{ backgroundColor: '#F1F3F4', height: '700px' }}>
+      <div>
         <input ref={regist} placeholder='원하는 유저를 입력하세요'></input>
-        <button onClick = {registOppenet}>유저 등록</button>
-        <UserChat opponent={opponent}></UserChat>
-        <div className="center-block border border-success border-5" style={{ float: 'right', width: "70%", height: '700px' , overflow : 'scroll' }}>
-
-          <FirstLoad opponent={opponent} user_id = {user_id}></FirstLoad>
-          {storageMsg.map((a, i) => {
-            return (
-              <div key={a.created_at}>
-                <p>유저 이름 : {a.user_id}</p>
-                <p>메세지 : {a.user_message} </p>
-              </div>
-            )
-          })}
+        <button onClick={registOppenet}>유저 등록</button>
+      </div>
+      {/* 맨 처음에 유저가 창을 열 때 */}
+      <div className='container mt-5 mb-5' style={{ backgroundColor: '#F1F3F4', height: '700px' }}>
+        <UserChat opponent={opponent} setClickedOp={setClickedOp}></UserChat>
+        <div  className="center-block border border-success border-5" style={{ float: 'right', width: "70%", height: '93%', overflow: 'scroll' }}>
+          <FirstLoad socket ={socket} firstData={firstData} setFirstData={setFirstData} clickedOp={clickedOp} user_id={user_id}></FirstLoad>
         </div>
-          <input ref={message} placeholder="메세지"></input> <br />
-          <button onClick={sendMessage}>보내기</button>
+        <div className="me" style={{float:"right", width: "70%" ,height : "7%"}}>
+          <input ref={message} onKeyPress={onKeyPress} style={{ height: "100%",width:"90%" }} placeholder="메세지"></input>
+          <button style={{  height: "100%" ,width:"10%"}} onClick={() => {
+            sendMessage()
+            
+          }}>보내기</button>
+        </div>
       </div>
       <Footer></Footer>
     </div>

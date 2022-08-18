@@ -1,4 +1,5 @@
 const Chat = require('../models/chat');
+const AddChat = require('../models/addChat')
 const User = require('../models/user')
 const bcrypt = require("bcrypt");
 const _ = require('lodash');
@@ -9,7 +10,6 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-let userList = []
 // <- io서버를 활성화 하기 위한 require
 app.use(cors());
 
@@ -58,8 +58,12 @@ io.on("connection", (socket) => {
         let matchUser = user_list.filter((datas) => {
           return datas.user_id === data.opponent
         })
+        let matchUser2 = user_list.filter((datas) => {
+          return datas.user_id === data.user_id
+        })
         // filter는 조건이 맞는 배열 객체를 찾아 배열로 리턴해줌
         console.log("match User : ", matchUser);
+        console.log("match User2 : " , matchUser2);
         delete data.socketId
         console.log(data);
 
@@ -69,21 +73,17 @@ io.on("connection", (socket) => {
           chater: user_id,
           chater_name: user_name,
           grade: user_grade,
-          opponent: opponent,
+          opponent,
           message
         }
       )
-      console.log("user_id : ", user_id);
-      console.log("opponent : ", opponent);
-      const findData = await Chat.findAll({
-        where: {
-          chater: user_id,
-          opponent
-        }
-      })
-      console.log("find Data : ", findData);
+      // console.log("user_id : ", user_id);
+      // console.log("opponent : ", opponent);
+      // console.log("user_name : " , user_name);
+      // console.log(" object : " , { user_name,message } );
       try {
-        io.to(matchUser[0].socket_id).emit("receive_message", findData)
+        io.to(matchUser[0].socket_id).emit("receive_message", {user_name,chater : user_id,message})
+        io.to(matchUser2[0].socket_id).emit("receive_message", {user_name,chater : user_id,message})
       } catch (error) {
         console.log("유저 오프라인");
       }
@@ -107,14 +107,14 @@ router.post('/', async (req, res) => {
   // Id찾기 
   try {
     let { chater,opponent } = req.body
-    console.log('반응옴');
-    console.log(chater);
-    console.log(opponent);
+    // console.log('반응옴');
+    // console.log(chater);
+    // console.log(opponent);
     const findData = await Chat.findAll({
       where: {
         [Op.or] : [{ chater, opponent } , { "chater" : opponent , "opponent" : chater}],
       },
-      order : [ ["created_at" , 'DESC'] ]
+      order : [ ["created_at"] ]
     })
     console.log(findData);
     res.send(findData)
@@ -124,5 +124,26 @@ router.post('/', async (req, res) => {
   }
 }
 )
+
+router.post('/bringdata' , async (req, res) => {
+  console.log("반응왔음 ");
+  let addUser = []
+  const { user_id } = req.body
+  let searchData = await AddChat.findAll({
+    where : {
+      [Op.or] : [{ addUser : user_id } , { addedUser : user_id }],
+    }
+  })
+  searchData.map( (a,i) => {
+    console.log(a.dataValues)
+    if( a.dataValues.addUser === user_id) {
+      addUser.push(a.dataValues.addedUser)
+    }else{
+      addUser.push(a.dataValues.addUser)
+    }
+    console.log(addUser);
+  })
+  res.send(addUser)
+})
 
 module.exports = router;
