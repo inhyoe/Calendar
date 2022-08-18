@@ -10,6 +10,7 @@ import Notice from './Routes/Notice/Notice.js';
 import NewPost from './Routes/Notice/WritePost.js';
 import ShowPost from './Routes/Notice/ShowPost.js';
 import Chat from './Routes/Chatting/chat.js';
+import NewClub from './Routes/Club/NewClub.js';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="notice/writepost" element={<NewPost />}/>
         <Route path="notice/*" element={<ShowPost />}/>
         <Route path="chat" element={<Chat />}/>
+        <Route path='newClub' element={<NewClub/>} />
         {/* <Route path="club2" element={<Club2 />}/> */}
 
       </Routes>

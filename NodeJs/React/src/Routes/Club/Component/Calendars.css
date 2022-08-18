@@ -1,0 +1,14 @@
+::-webkit-input-placeholder {
+   font-size: 15px;
+}
+
+input.input-calendar.form-control {
+   font-size: 20px;
+   padding: 1px;
+}
+div.react-calendar{
+   float: left;
+}
+#CalName {
+   font-size: 20px;
+}
