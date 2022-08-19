@@ -6,9 +6,14 @@ input.input-calendar.form-control {
    font-size: 20px;
    padding: 1px;
 }
-div.react-calendar{
-   float: left;
-}
 #CalName {
    font-size: 20px;
+}
+#me {
+   height: 60px;
+   width: 50vw;
+}
+
+.aroundDiv{
+   width : 100%;
 }

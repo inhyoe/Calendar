@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
-import Calendar from 'react-calendar';
+import React, { useState } from 'react'
+
 import 'react-calendar/dist/Calendar.css';
-import moment from 'moment';
+
 // 안써도 자동으로 한국 시간을 불러온다. 명확하게 하기 위해 import
 import 'moment/locale/ko';
-import axios from 'axios'
-import DB from '../db/db'
+import './myCal.css'
 import Cal from './Component/Calendars'
+import ShowTodo from './Component/ShowTodo';
 
 
 export default function NewClub() {
@@ -14,11 +14,14 @@ export default function NewClub() {
   const user_grade = sessionStorage.getItem("user_grade")
   const user_name = sessionStorage.getItem("user_name")
   
-  let [startDate , setStartDate] = useState('')
-  let [endDate , setEndDate] = useState('')
-  let [todo ,setTodo] = useState('')
+  let [startDate , setStartDate] = useState('') // * 시작 시간 입력
+  let [endDate , setEndDate] = useState('') // * 끝나는시간 입력
+  let [todo ,setTodo] = useState('') // * 할일 입력
+  let [groupTodo , setGroupTodo] = useState([]) // *
+  let [value, onChange] = useState(new Date());
   return (
     <div>
+      <div>
       <Cal startDate = {startDate} 
       setEndDate = {setEndDate} 
       endDate = {endDate} 
@@ -28,7 +31,19 @@ export default function NewClub() {
       user_id = {user_id}
       user_grade = {user_grade}
       user_name = {user_name}
+      setGroupTodo = {setGroupTodo}
+      value = {value}
+      onChange = {onChange}
       ></Cal>
+      </div>
+      <div>
+      <ShowTodo
+        groupTodo = {groupTodo}
+        value = {value}
+      />
+      </div>
+
+      
       {/*Cal컴포넌트에서 startDate endDate 관리함. */}
     </div>
   )

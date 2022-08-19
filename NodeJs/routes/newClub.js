@@ -2,6 +2,8 @@ const express = require('express');
 const newClub = require('../models/startEndClub')
 const bcrypt = require("bcrypt");
 const router = express.Router();
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
 
 
@@ -19,22 +21,28 @@ router.post('/', async (req, res) => {
       })
       const user_club = await newClub.findAll({
          where: {
-            grade: user_grade
+            grade: user_grade,
+            startDate :{
+               [Op.like] : "%" + startDate.substr(0,10) + "%"
+            }
          }
       })
-      console.log(user_club)
-      // let user_data = []
-      // user_club.map((a, i) => {
-      //    user_data[i] = user_club[i].dataValues.date.substr(0, 11)
-      //    user_club[i].dataValues.date = user_data[i]
-      // })
-      // console.log(user_data)
+      console.log(user_club[0].dataValues)
+      let user_data = []
+      user_club.map((a, i) => {
+         console.log("datavalues : ",a.dataValues);
+         let StEd = {}
+         let Start = a.dataValues.startDate.split('/')[3].concat(`:${a.dataValues.startDate.split('/')[4]}`)
+         let End = a.dataValues.endDate.split('/')[3].concat(`:${a.dataValues.endDate.split('/')[4]}`)
+         let TODO = a.dataValues.todo
+         StEd["Start"] = Start // ? 시작하는 시각
+         StEd["End"] = End     // ? 끝나는 시각
+         StEd['todo'] = TODO   // ? DB에서 불러온 데이터
+         user_data.push(StEd)  // ? user_data에 데이터를 Push해줌 
+      })
+      console.log(user_data)
 
-
-      console.log(user)
-      console.log("========================= ")
-
-      res.status(201).send(true)
+      res.status(201).send(user_data)
    } catch (error) {
       
       console.log("failed")

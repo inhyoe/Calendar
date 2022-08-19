@@ -10,7 +10,9 @@ import Button from 'react-bootstrap/Button';
 import DB from '../../db/db'
 import axios from 'axios'
 export default function Calendars(props) {
-   let { startDate, setStartDate, endDate, setEndDate, todo, setTodo, user_id, user_grade, user_name} = props;
+
+   let { startDate, setStartDate, endDate, setEndDate, todo, setTodo, user_id, user_grade, user_name , setGroupTodo, onChange , value } = props; // * 받아온 state값
+   
    useEffect(() => {
       console.log(Number(startDate))
       console.log(endDate)
@@ -22,11 +24,13 @@ export default function Calendars(props) {
       console.log("im on")
       if (Number(startDate) !== 0 && Number(endDate) !== 0) {
          axios.post(`${DB.host}newClub`, { user_id, user_grade, user_name, todo, startDate, endDate }).then((res) => {
-            console.log(res.data)
+            setGroupTodo(res.data)
          })
       }
    }, [startDate, endDate])
-   const [value, onChange] = useState(new Date());
+
+   
+
    let StartDate = useRef()
    let EndDate = useRef()
    let StartHour = useRef()
@@ -36,14 +40,14 @@ export default function Calendars(props) {
    let inputTodo = useRef()
 
    const inputFun = (SD, SH, SM) => {
-      let sd = SD.current.value // ! 날자
-      let sh = SH.current.value // ! 시간
-      let sm = SM.current.value // ! 분
+      let sd = SD.current.value // * 날자
+      let sh = SH.current.value // * 시간
+      let sm = SM.current.value // * 분
       if (sd == NaN || sh == NaN || sm === NaN) {
          SH.current.value = ''
          SM.current.value = ''
          return false
-      } else if (sh > 24 || sm > 60) {
+      } else if (sh > 24 || sm > 60) { // ? 시간이 범위를 벗어났을때 날짜는 정규 표현식을 배우고 할 것.
          SH.current.value = ''
          SM.current.value = ''
          return false
@@ -64,52 +68,57 @@ export default function Calendars(props) {
    const handleDate = () => { // 시작-끝나는 시간 입력 todo
       let startResult = inputFun(StartDate, StartHour, StartMin)
       let endResult = inputFun(EndDate, EndHour, EndMin)
+      
       if (startResult == false || endResult === false) {
          return alert('잘못된 양식입니다 다시 입력해주세요')
       }
+      
       let compared = compare(startResult, endResult)
       if (compared === false) {
          return alert('일정 시작 시간이 더 큽니다 다시 입력해주세요')
       }
-      setEndDate(startResult)
-      setStartDate(endResult)
+      setEndDate(endResult)
+      setStartDate(startResult)
       setTodo(inputTodo.current.value)
    }
    // ! CodeFlow => 유저가 시간 입력 => inputFun에서 유효성 검사 =>잘못된 경우 handleDate에서 alert출력
    // ! inputFun에서 잘못된 것이 없을때 compare 함수에서 유효성(시간) 검사 => 잘못된 경우 alert출력
-   return (
-      <div>
-         <Calendar onChange={onChange} value={value} />
-         <div style={{ height: "40px" }}>
-            <div style={{ height: "60px" }}>
+   console.log(value);
+   function FormsData(props){
+      console.log("props : ",props);
+      return (
+         <div id = "me">
                <div>StartTime</div>
 
-               <Form.Control ref={StartDate} className="input-calendar" placeholder="24hours" defaultValue={moment(value).format("YYYY/MM/DD")} style={{ float: 'left', width: '12%' }} />
-               <Form.Control ref={StartHour} className="input-calendar" placeholder="24hours" style={{ float: 'left', width: '5%' }} />
+               <Form.Control ref={props.date} className="input-calendar" placeholder="24hours" defaultValue={moment(props.value).format("YYYY/MM/DD")} style={{ float: 'left', width: '12%' }} />
+               <Form.Control ref={props.hour} className="input-calendar" placeholder="24hours" style={{ float: 'left', width: '5%' }} />
                <div style={{ float: 'left' }}>
                   :
                </div>
                <div>
-                  <Form.Control ref={StartMin} className="input-calendar" placeholder="24hours" style={{ float: 'left', width: '5%' }} />
+                  <Form.Control ref={props.min} className="input-calendar" placeholder="24hours" style={{ float: 'left', width: '5%' }} />
                </div>
-            </div> {/* startTime */}
-
-            <div style={{ height: "60px" }}>
-               <div>End Time</div>
-               <Form.Control ref={EndDate} className="input-calendar" placeholder="24hours" defaultValue={moment(value).format("YYYY/MM/DD")} style={{ float: 'left', width: '12%' }} />
-               <Form.Control ref={EndHour} className="input-calendar" placeholder="24hours" style={{ float: 'left', width: '5%' }} />
-               <div style={{ float: 'left' }}>
-                  :
-               </div>
-               <div>
-                  <Form.Control ref={EndMin} className="input-calendar" placeholder="24hours" style={{ float: 'left', width: '5%' }} />
-               </div>
-            </div> {/* endTime */}
+         </div>   
+      )
+   }
+   return (
+      <div className = "Cal">
+         <Calendar onChange={onChange} value={value} 
+         className="mx-auto w-full border-b"
+         titleContent = { ( date,view) => {
+            
+         }}
+         />
+         <div className="aroundDiv">
+            <div classInner="`">
+            <FormsData  value = {value} date = {StartDate} hour = {StartHour} min = {StartMin}></FormsData>
+            <FormsData value = {value} date = {EndDate} hour = {EndHour} min = {EndMin}></FormsData>   
             <Form.Control ref={inputTodo} className="input-calendar" placeholder="todo" style={{ float: 'left', width: '5%' }} />
             <Button variant="success" onClick={() => {
                console.log("clicked")
                handleDate()
             }}>Submit</Button>
+            </div>
          </div>
       </div>
    )
