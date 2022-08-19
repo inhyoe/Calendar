@@ -5,8 +5,6 @@ import { useSelector } from 'react-redux'
 export default function FirstLoad(props) {
    
    useEffect(() => {
-      console.log("opponent", props.clickedOp);
-      console.log("user_id", props.user_id);
       axios.post(`${myDB.host}chat`, { opponent: props.clickedOp, chater: props.user_id }).then((res) => {
          console.log("res.data : ", res.data);
          props.setFirstData(res.data)
@@ -14,10 +12,7 @@ export default function FirstLoad(props) {
       console.log("firstData : " , props.firstData);
    }, [props.clickedOp])
    useEffect(()=>{
-      console.log('sibal?');
-      console.log(scrollMenu.current);
       if(scrollMenu.current !== undefined && scrollMenu.current!==null){
-        console.log('im runnung');
         scrollMenu.current.scrollIntoView({ behavior: 'smooth' })
            
            scrollMenu.current.scrollIntoView(false)

@@ -7,6 +7,8 @@ import 'moment/locale/ko';
 import './myCal.css'
 import Cal from './Component/Calendars'
 import ShowTodo from './Component/ShowTodo';
+import NavFun from '../db/NavFun';
+import Footer from '../db/Footer';
 
 
 export default function NewClub() {
@@ -21,7 +23,9 @@ export default function NewClub() {
   let [value, onChange] = useState(new Date());
   return (
     <div>
-      <div>
+      // ! 모션은 react-spring을 이용하여 해보자.
+      <NavFun></NavFun>
+      <div className='mt-5'>
       <Cal startDate = {startDate} 
       setEndDate = {setEndDate} 
       endDate = {endDate} 
@@ -40,9 +44,11 @@ export default function NewClub() {
       <ShowTodo
         groupTodo = {groupTodo}
         value = {value}
+        user_grade = {user_grade}
+        setGroupTodo = {setGroupTodo}
       />
       </div>
-
+      <Footer></Footer>
       
       {/*Cal컴포넌트에서 startDate endDate 관리함. */}
     </div>

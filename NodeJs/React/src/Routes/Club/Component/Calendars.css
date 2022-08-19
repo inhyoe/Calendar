@@ -9,11 +9,30 @@ input.input-calendar.form-control {
 #CalName {
    font-size: 20px;
 }
-#me {
-   height: 60px;
-   width: 50vw;
+
+.innerDiv{
+   
+   margin: 0 auto;
 }
 
+#me {
+   margin: 0 auto;
+   overflow: scroll;
+   min-width: 250px;
+   max-width: 25vw;
+}
+#todo{
+   height : 200px;
+   margin: 0 auto;
+   overflow: scroll;
+   min-width: 250px;
+   max-width: 25vw;
+}
 .aroundDiv{
    width : 100%;
+}
+
+.inlined {
+   display: inline-block;
+   margin-right: 5px;
 }
