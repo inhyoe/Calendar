@@ -11,6 +11,7 @@ const clubRouter = require('./routes/club');
 const ForgotRouter = require('./routes/forgot');
 const NoticeRouter = require('./routes/notice');
 const ChatRouter = require('./routes/chat');
+const NewClub = require('./routes/newClub');
 const app = express();
 dotenv.config();
 
@@ -52,6 +53,7 @@ app.use('/register', RegisterRouter);
 app.use('/club', clubRouter);
 app.use('/login/forgot',ForgotRouter)
 app.use('/notice' , NoticeRouter)
+app.use('/newclub' , NewClub);
 app.use('/chat' , ChatRouter)
 
 app.listen(4041, function () {

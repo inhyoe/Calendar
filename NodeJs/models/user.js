@@ -80,6 +80,8 @@ module.exports = class User extends Sequelize.Model {
     db.User.hasMany(db.Chat , { foreignKey: "chater" , sourceKey : "id"})
     db.User.hasMany(db.AddChat , { foreignKey: "addUser" , sourceKey : "name"})
     db.User.hasMany(db.AddChat , { foreignKey: "addedUser" , sourceKey : "name"})
+    db.User.hasMany(db.StartEndClub , { foreignKey: "cluber" , sourceKey : "id"})
+    
     
     
    

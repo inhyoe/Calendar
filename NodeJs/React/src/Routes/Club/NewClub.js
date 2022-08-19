@@ -10,12 +10,26 @@ import Cal from './Component/Calendars'
 
 
 export default function NewClub() {
+  const user_id = sessionStorage.getItem("user_id")
+  const user_grade = sessionStorage.getItem("user_grade")
+  const user_name = sessionStorage.getItem("user_name")
+  
   let [startDate , setStartDate] = useState('')
   let [endDate , setEndDate] = useState('')
+  let [todo ,setTodo] = useState('')
   return (
     <div>
-      <Cal startDate = {startDate} setEndDate = {setEndDate} endDate = {endDate} setStartDate = {setStartDate}></Cal>
-      {/* 캘린더 컴포넌트 */}
+      <Cal startDate = {startDate} 
+      setEndDate = {setEndDate} 
+      endDate = {endDate} 
+      setStartDate = {setStartDate}
+      todo = {todo}
+      setTodo = {setTodo}
+      user_id = {user_id}
+      user_grade = {user_grade}
+      user_name = {user_name}
+      ></Cal>
+      {/*Cal컴포넌트에서 startDate endDate 관리함. */}
     </div>
   )
 }
