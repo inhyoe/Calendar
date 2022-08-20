@@ -20,7 +20,9 @@ export default function NewClub() {
   let [endDate , setEndDate] = useState('') // * 끝나는시간 입력
   let [todo ,setTodo] = useState('') // * 할일 입력
   let [groupTodo , setGroupTodo] = useState([]) // *
+  let [userTodo , setUserTodo] = useState([]) // *
   let [value, onChange] = useState(new Date());
+
   return (
     <div>
       // ! 모션은 react-spring을 이용하여 해보자.
@@ -45,7 +47,10 @@ export default function NewClub() {
         groupTodo = {groupTodo}
         value = {value}
         user_grade = {user_grade}
+        user_id = {user_id}
         setGroupTodo = {setGroupTodo}
+        userTodo = {userTodo}
+        setUserTodo = {setUserTodo}
       />
       </div>
       <Footer></Footer>

@@ -17,22 +17,29 @@ input.input-calendar.form-control {
 
 #me {
    margin: 0 auto;
+   min-width: 250px;
+   max-width: 25vw;
+}
+
+#todo{
+   height : 200px;
    overflow: scroll;
    min-width: 250px;
    max-width: 25vw;
 }
-#todo{
-   height : 200px;
+#myCalendar{
+   width : 50%;
    margin: 0 auto;
-   overflow: scroll;
-   min-width: 250px;
-   max-width: 25vw;
+}
+#hi{
+   width: 50%;
+   display: inline-block;
+   margin: 0 auto;
 }
 .aroundDiv{
    width : 100%;
 }
 
 .inlined {
-   display: inline-block;
    margin-right: 5px;
 }

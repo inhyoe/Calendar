@@ -23,16 +23,6 @@ export default function Register() {
   function isNum(val) {
     return !isNaN(val)
   }
-  // function getAction(action,e){
-  //   var value = e.target.value
-  //   if(action === "getId"){
-  //     setId(value)
-  //   }else if(action === "getPwd"){
-  //     setPasswd(value)
-  //   }else if(action === "getName"){
-  //     setName(value)
-  //   }
-  // }
 
   function getId(e) {
     setId(e.target.value)
@@ -63,6 +53,10 @@ export default function Register() {
     e.preventDefault()
     console.log("tel : ", tel)
     console.log("me", (tel).toString().length)
+    if(checkEmail) {
+      alert('이메일 형식이 맞지 않습니다')
+      return false
+    }
 
     if ((tel).toString().length !== 11) {
       return alert('전화번호 형식이 맞지 않습니다 확인해 주세요')
@@ -77,7 +71,10 @@ export default function Register() {
     }
   }
 
-
+  function checkEmail(){
+    if(!/^[a-zA-Z0-9._-]{1,}@[0-9a-zA-Z-]{3,}([.][a-zA-Z]{2,3}){1,2}$/.test(email)) 
+      return false;
+  }
   return (
     <div>
       <center>
@@ -105,7 +102,7 @@ export default function Register() {
               <label htmlFor="name">TEL</label>
             </div>
             <div className="int-area" id="int2-area" >
-              <input type="text" name="email" id="email" placeholder="" autoComplete="off" onChange={getEmail} required />
+              <input type="text" name="email" id="email" placeholder="" autoComplete="off" onChange={getEmail} onKeyUp={checkEmail} required />
               <label htmlFor="name">E-mail</label>
             </div>
             <div className="int-area" id="int2-area" >

@@ -9,20 +9,18 @@ import './Calendars.css'
 import Button from 'react-bootstrap/Button';
 import DB from '../../db/db'
 import axios from 'axios'
-import myDB from '../../db/db';
 export default function Calendars(props) {
 
    let { startDate, setStartDate, endDate, setEndDate, todo, setTodo, user_id, user_grade, user_name, setGroupTodo, onChange, value } = props; // * 받아온 state값
 
    useEffect(() => {
-      console.log(Number(startDate))
-      console.log(endDate)
+      // console.log(Number(startDate))
+      // console.log(endDate)
       if (startDate !== null && endDate !== null) {
          // 시작시간과 끝나는 시간이 null값이 아닐 때
       }
    }, [props.startDate])
    useEffect(() => {
-      console.log("im on")
       if (Number(startDate) !== 0 && Number(endDate) !== 0) {
          axios.post(`${DB.host}newClub`, { user_id, user_grade, user_name, todo, startDate, endDate }).then((res) => {
             setGroupTodo(res.data)
@@ -82,16 +80,9 @@ export default function Calendars(props) {
    }
    // ! CodeFlow => 유저가 시간 입력 => inputFun에서 유효성 검사 =>잘못된 경우 handleDate에서 alert출력
    // ! inputFun에서 잘못된 것이 없을때 compare 함수에서 유효성(시간) 검사 => 잘못된 경우 alert출력
-   console.log(value);
-   function calClicked(){
-      console.log('hio')
-      axios.post('search').then((res) => {
-         setGroupTodo(res.data)
-      })   
-   }
 
    function FormsData(props) { // ? 일정을 표시해주는 컴포넌트 
-      console.log("props : ", props);
+      // ! console.log("props : ", props); 꼭 확인해봅시다.
       
       return (
          <div id="me">
@@ -113,9 +104,6 @@ export default function Calendars(props) {
       <div className="Cal">
          <Calendar onChange={onChange} value={value}
             className="mx-auto w-full border-b"
-            titleContent={(date, view) => {
-
-            }}
          />
          <div className="aroundDiv">
             <div className="innerDiv">
@@ -124,7 +112,6 @@ export default function Calendars(props) {
             <div id='me'>
                <Form.Control ref={inputTodo} className="input-calendar" placeholder="todo" style={{ width: '50%' ,float: "left"}} />
                <Button variant="success" onClick={() => {
-                  console.log("clicked")
                   handleDate()
                }}>Submit</Button>
                </div>
