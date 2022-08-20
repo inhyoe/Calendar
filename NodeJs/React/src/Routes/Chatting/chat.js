@@ -61,6 +61,11 @@ export default function chat() {
   }
   
   function registOppenet() {
+    axios.post(`${DB.host}chat/create` , {user_id , opponent : regist.current.value } ).then(
+      (res) => {
+        console.log(res.data)
+      }
+    )
     setOpponent(prev => [...prev, regist.current.value])
   }
   

@@ -125,6 +125,22 @@ router.post('/', async (req, res) => {
 }
 )
 
+router.post('/create', async (req, res) => {
+  try{
+  const { user_id , opponent } = req.body
+  AddChat.create(
+    {
+      addUser : user_id,
+      addedUser : opponent
+    }
+  )  
+  res.send(true)
+  }catch(error){
+    res.send(error)
+    console.log(error)
+  }
+})
+
 router.post('/bringdata' , async (req, res) => {
   console.log("반응왔음 ");
   let addUser = []

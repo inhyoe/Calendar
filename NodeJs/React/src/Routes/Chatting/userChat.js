@@ -1,7 +1,5 @@
 import DB from '../db/db'
 import React from 'react';
-import { useQuery, useMutation, queryCache } from "react-query";
-import axios from 'axios';
 
 export default function userChat(props) {
    const user_id = sessionStorage.getItem("user_id")
