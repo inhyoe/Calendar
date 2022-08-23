@@ -47,27 +47,29 @@ export default function chat() {
       arr = []
       console.log("arr : ", arr);
     });
-    
+
   }, [socket]);
 
-  const onClick = () =>{
+  const onClick = () => {
     socket.emit('send_message', { user_id, user_name, user_grade, opponent: clickedOp, message: message.current.value })
   }
 
-  const onKeyPress = (e) =>{
-    if(e.key == 'Enter') {
+  const onKeyPress = (e) => {
+    if (e.key === 'Enter') {
       onClick();
+      message.current.value = '';
     }
   }
-  
+
   function registOppenet() {
-    axios.post(`${DB.host}chat/create` , {user_id , opponent : regist.current.value } ).then(
+    axios.post(`${DB.host}chat/create`, { user_id, opponent: regist.current.value }).then(
       (res) => {
         console.log(res.data)
       }
     )
     setOpponent(prev => [...prev, regist.current.value])
   }
+  
   
   return (
     <div>
@@ -79,14 +81,13 @@ export default function chat() {
       {/* 맨 처음에 유저가 창을 열 때 */}
       <div className='container mt-5 mb-5' style={{ backgroundColor: '#F1F3F4', height: '700px' }}>
         <UserChat opponent={opponent} setClickedOp={setClickedOp}></UserChat>
-        <div  className="center-block border border-success border-5" style={{ float: 'right', width: "70%", height: '93%', overflow: 'scroll' }}>
-          <FirstLoad socket ={socket} firstData={firstData} setFirstData={setFirstData} clickedOp={clickedOp} user_id={user_id}></FirstLoad>
+        <div className="center-block border border-success border-5" style={{ float: 'right', width: "70%", height: '93%', overflow: 'scroll' }}>
+          <FirstLoad socket={socket} firstData={firstData} setFirstData={setFirstData} clickedOp={clickedOp} user_id={user_id}></FirstLoad>
         </div>
-        <div className="me" style={{float:"right", width: "70%" ,height : "7%"}}>
-          <input ref={message} onKeyPress={onKeyPress} style={{ height: "100%",width:"90%" }} placeholder="메세지"></input>
-          <button style={{  height: "100%" ,width:"10%"}} onClick={() => {
+        <div className="me" style={{ float: "right", width: "70%", height: "7%" }}>
+          <input ref={message} onKeyPress={onKeyPress} style={{ height: "100%", width: "90%" }} placeholder="메세지"></input>
+          <button style={{ height: "100%", width: "10%" }} onClick={() => {
             sendMessage()
-            
           }}>보내기</button>
         </div>
       </div>

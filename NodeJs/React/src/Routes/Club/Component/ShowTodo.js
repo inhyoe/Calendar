@@ -13,41 +13,37 @@ export default function ShowTodo(props) {
       })
 
    }, [value])
+   /**
+   * @param {Array} wTodo 누가할지(who's Todo)
+   * @param {Object} Time 시간값(Times)
+   */
+   function WhatTodo({wTodo,Time}){
+      console.log(props);
+      return(
+         <div id = "hi">
+               <div>{moment(Time).format("YYYY/MM/DD")}날의 나의 일정은 </div>
+               <div id='todo'>
+                  {wTodo.map((a, i) => {
+                     return (
+                        <div key={i} >
+                           <p >nickName : {a.user_nickname}</p>
+                           <p className="inlined">StartTime : {a.Start}</p>
+                           <p className="inlined">EndTime : {a.End}</p>
+                           <p>todo : {a.todo}</p>
+                           <p>=====================</p>
+                        </div>
+                     )
+                  })}
+               </div>
+            </div>
+      )
+   }
+   
    return (
       <div>
          <div id="myCalendar">
-            <div id = "hi">
-               <div>{moment(props.value).format("YYYY/MM/DD")}날의 나의 일정은 </div>
-               <div id='todo'>
-                  {userTodo.map((a, i) => {
-                     return (
-                        <div key={i} >
-                           <p >nickName : {a.user_nickname}</p>
-                           <p className="inlined">StartTime : {a.Start}</p>
-                           <p className="inlined">EndTime : {a.End}</p>
-                           <p>todo : {a.todo}</p>
-                           <p>=====================</p>
-                        </div>
-                     )
-                  })}
-               </div>
-            </div>
-            <div id = "hi">
-               <div>{moment(props.value).format("YYYY/MM/DD")}날의 그룹의 일정은 </div>
-               <div id='todo'>
-                  {groupTodo.map((a, i) => {
-                     return (
-                        <div key={i} >
-                           <p >nickName : {a.user_nickname}</p>
-                           <p className="inlined">StartTime : {a.Start}</p>
-                           <p className="inlined">EndTime : {a.End}</p>
-                           <p>todo : {a.todo}</p>
-                           <p>=====================</p>
-                        </div>
-                     )
-                  })}
-               </div>
-            </div>
+         <WhatTodo wTodo = {userTodo} Time = {props.time}></WhatTodo>
+         <WhatTodo wTodo = {groupTodo} Time = {props.time}></WhatTodo>
          </div>
       </div>
    )

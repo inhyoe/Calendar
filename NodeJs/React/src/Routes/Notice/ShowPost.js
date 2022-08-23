@@ -20,6 +20,9 @@ export default function ShowPost() {
    let [post, setPost] = useState([])
    let grade = sessionStorage.getItem("user_grade")
    
+   function modifyBtn(){
+      navigate(`/notice/modify/${params}`)
+   }
    function deleteBtn(){
       axios.post(`${DB.host}notice/delete/${params}`).then((res) => {
          if(res.data === true){
@@ -52,6 +55,7 @@ export default function ShowPost() {
                   </h5>
                </div>
             { grade === '2' ? <Button onClick = {deleteBtn} variant="outline-info">글삭제</Button> : null }
+            { grade === '2' ? <Button onClick = {modifyBtn} variant="outline-info">글수정</Button> : null }
          </div>
       </div>
    )

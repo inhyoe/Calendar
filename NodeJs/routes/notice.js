@@ -70,6 +70,35 @@ router.post('/:idx',async (req, res) => {
       res.send(error)
    }
 })
+router.post('/modifypost/:idx' , async (req,res) => {
+   try {
+      const idx = req.params.idx
+      console.log(idx);
+      let finded = await Notice.findAll({
+         where : { idx } 
+      })
+      console.log("Notice : ",finded);
+      res.send(finded)
+   } catch (error) {
+      console.log(error);
+      res.send(error.message)
+   }
+})
+router.put('/modifypost/:idx' , (req,res) => {
+   try {
+      const { idx } = req.params;
+      let { NoticerId,  title, main_text } = req.body;
+      Notice.update(
+         { NoticerId , title , main_text} ,
+         { where : { idx } }
+       )
+       res.send(true)
+   } catch (error) {
+      res.send(false)
+   }
+})
+
+
 router.post('/delete/:idx',async (req, res) => {
    try {
       const { idx } = req.params;

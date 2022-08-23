@@ -34,7 +34,12 @@ export default function Calendars(props) {
    let EndHour = useRef()
    let EndMin = useRef()
    let inputTodo = useRef()
-
+   /**
+    * @param {string} SD 날자
+    * @param {string} SH 시간
+    * @param {string} SM 분
+    * @return {boolean or string(time)} 유저가 입력한 시간을 리턴 혹은 false
+   */
    const inputFun = (SD, SH, SM) => {
       let sd = SD.current.value // * 날자
       let sh = SH.current.value // * 시간
@@ -52,7 +57,12 @@ export default function Calendars(props) {
       return sDsHsM
       // 유저가 입력한 시간을 리턴해주는 함수
    }
-
+   /**
+   * 시작 시간과 끝 시간을 비교해주는 함수
+   * @param {String} before 시작시간
+   * @param {String} after  끝나는시간
+   * @return {Boolean} true 혹은 false를 반환함
+   */ 
    const compare = (before, after) => {
       let startArr = before.split('/')
       let endArr = after.split('/')
@@ -71,7 +81,7 @@ export default function Calendars(props) {
       if (startResult == false || endResult === false) {
          return alert('잘못된 양식입니다 다시 입력해주세요')
       }
-
+      
       let compared = compare(startResult, endResult)
       if (compared === false) {
          return alert('일정 시작 시간이 더 큽니다 다시 입력해주세요')

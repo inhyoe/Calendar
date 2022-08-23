@@ -1,7 +1,6 @@
 import axios from 'axios'
-import React, { useEffect, useRef, useState, useCallback } from 'react'
+import React, { useEffect, useRef } from 'react'
 import myDB from '../db/db'
-import { useSelector } from 'react-redux'
 export default function FirstLoad(props) {
 
    useEffect(() => {
@@ -19,7 +18,7 @@ export default function FirstLoad(props) {
 
            scrollMenu.current.scrollIntoView(false)
         }
-   },[props.socket])
+   },[props.firstData])
    const scrollMenu = useRef()
    return (
       <div ref={scrollMenu}  className = 'hime'>
@@ -31,7 +30,6 @@ export default function FirstLoad(props) {
                   { a.chater === props.user_id ? <div><p>나 : {a.chater_name}</p> <p>메세지 :  {a.message}</p></div> :
                      (<div style={{float : 'right'}}><p>상대방 : {a.chater}</p> <p>채팅 : {a.message}</p></div> )
                   }
-
                </div>
             )
          })}

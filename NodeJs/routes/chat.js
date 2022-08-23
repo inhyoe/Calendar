@@ -48,7 +48,7 @@ io.on("connection", (socket) => {
     socket.on("send_message", async (data) => {
       data["socketId"] = socket.id
       // console.log("sended message : ", data);
-      // console.log("user_list 는 :", user_list);
+      console.log("user_list 는 :", user_list);
 
       // 만약 상대방이 접속하지 않았을 때에는?
       // DB에 단순히 socket.id를 저장하지 말고, data를 저장하자
@@ -62,8 +62,8 @@ io.on("connection", (socket) => {
           return datas.user_id === data.user_id
         })
         // filter는 조건이 맞는 배열 객체를 찾아 배열로 리턴해줌
-        // console.log("match User : ", matchUser);
-        // console.log("match User2 : " , matchUser2);
+        console.log("match User : ", matchUser);
+        console.log("match User2 : " , matchUser2);
         delete data.socketId
         // console.log(data);
 
@@ -77,20 +77,23 @@ io.on("connection", (socket) => {
           message
         }
       )
-      // console.log("user_id : ", user_id);
-      // console.log("opponent : ", opponent);
-      // console.log("user_name : " , user_name);
-      // console.log(" object : " , { user_name,message } );
+      console.log("user_id : ", user_id);
+      console.log("opponent : ", opponent);
+      console.log("user_name : " , user_name);
+      console.log(" object : " , { user_name,message } );
       try {
         io.to(matchUser[0].socket_id).emit("receive_message", {user_name,chater : user_id,message})
         io.to(matchUser2[0].socket_id).emit("receive_message", {user_name,chater : user_id,message})
       } catch (error) {
+        io.to(matchUser2[0].socket_id).emit("receive_message", {user_name,chater : user_id,message})
         console.log("유저 오프라인");
       }
       console.log('성공 !');
     });
   } catch (error) {
-
+    //! 발생된 에러 a c 접속 -> c가 a한테 보낼 때 b의 채팅방에서도 최근 채팅이 업데이트 돠어있음.
+    //! 프론트 쪽에서 c가 a한테 보낼때 c채팅방인지 b채팅방인지 유효성을 검사해줘야함.
+    
   }
   socket.on("disconnect", () => {
     socket.disconnect()

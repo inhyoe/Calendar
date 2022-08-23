@@ -1,10 +1,6 @@
 import React from 'react';
 
 export default function userChat(props) {
-   const user_id = sessionStorage.getItem("user_id")
-   const user_grade = sessionStorage.getItem("user_grade")
-   const user_name = sessionStorage.getItem("user_name")
-
    function onClicked (index) {
       props.setClickedOp(props.opponent[index]); // chat.js - line 29
    }

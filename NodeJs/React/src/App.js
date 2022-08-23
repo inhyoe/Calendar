@@ -8,6 +8,7 @@ import React from 'react';
 import Notice from './Routes/Notice/Notice.js';
 import NewPost from './Routes/Notice/WritePost.js';
 import ShowPost from './Routes/Notice/ShowPost.js';
+import ModifyPost from './Routes/Notice/ModifyPost.js';
 import Chat from './Routes/Chatting/chat.js';
 import NewClub from './Routes/Club/NewClub.js';
 
@@ -24,8 +25,9 @@ function App() {
         <Route path="/login/forgot" element={<Forgot />} />
         <Route path="/login/register" element={<Register />} />
         <Route path="notice" element={<Notice />}/>
+        <Route path="notice/*" element={<ShowPost />}/>\
         <Route path="notice/writepost" element={<NewPost />}/>
-        <Route path="notice/*" element={<ShowPost />}/>
+        <Route path="notice/modify/*" element={<ModifyPost />}/>
         <Route path="chat" element={<Chat />}/>
         <Route path='club' element={<NewClub/>} />
         
