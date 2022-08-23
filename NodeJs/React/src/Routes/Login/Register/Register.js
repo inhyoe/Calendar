@@ -2,10 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DB from '../../db/db'
 import axios from 'axios'
+import { checkEmail,checkPw,checkPwCorrect,telCheck} from './Func/checkFun'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
+
 
 export default function Register() {
   let [id, setId] = useState('')
   let [passwd, setPasswd] = useState('')
+  let [passwdCk, setPasswdCk] = useState('')
   let [name, setName] = useState('')
   let [tel, setTel] = useState('')
   let [email, setEmail] = useState('')
@@ -30,14 +36,14 @@ export default function Register() {
   function getPwd(e) {
     setPasswd(e.target.value)
   }
+  function getPwdCk(e){
+    setPasswdCk(e.target.value)
+  }
   function getName(e) {
     setName(e.target.value)
   }
   function getTel(e) {
-    setTel((e.target.value).toString())
-    if (isNaN(tel)) {
-      e.target.value = ''
-    }
+    setTel(e.target.value)
   }
   function getEmail(e) {
     setEmail(e.target.value)
@@ -57,7 +63,14 @@ export default function Register() {
       alert('이메일 형식이 맞지 않습니다')
       return false
     }
-
+    if(checkPw){
+      alert('비밀번호 형식이 맞지 않습니다')
+      return false
+    }
+    if(telCheck){
+      alert('전화번호 형식이 맞지 않습니다')
+      return false
+    }
     if ((tel).toString().length !== 11) {
       return alert('전화번호 형식이 맞지 않습니다 확인해 주세요')
     }
@@ -71,15 +84,35 @@ export default function Register() {
     }
   }
 
-  function checkEmail(){
-    if(!/^[a-zA-Z0-9._-]{1,}@[0-9a-zA-Z-]{3,}([.][a-zA-Z]{2,3}){1,2}$/.test(email)) 
-      return false;
-  }
-  function checkPw(){
-    if(!/^[a-zA-Z0-9]/){
-
+  function ShowPwVaild(){
+    if(checkPw(passwd) === false){
+      return (<div>비밀번호 형식이 같지 않습니다</div>)
+    }else{
+      return <div>비밀번호 형식이 같습니다</div>
     }
   }
+  function ShowPwCk(){
+    if(checkPwCorrect(passwd,passwdCk) === false){
+      return (<div>비밀번호가 같지 않습니다</div>)
+    }else{
+      return <div>비밀번호가 같습니다</div>
+    }
+  }
+  function ShowEmailCk(){
+    if(checkEmail(email) === false){
+      return (<div>이메일 형식이 같지 않습니다</div>)
+    }else{
+      return <div>이메일 형식이 같습니다</div>
+    }
+  }
+  function ShowTelCk(){
+    if(telCheck(tel) === false){
+      return (<div>비밀번호 형식이 같지 않습니다</div>)
+    }else{
+      return <div>비밀번호 형식이 같습니다</div>
+    }
+  }
+  
   return (
     <div>
       <center>
@@ -90,13 +123,18 @@ export default function Register() {
               <input type="text" name="id" id="id" autoComplete="off" onChange={getId} required />
               <label htmlFor="id">ID</label>
             </div>
+
+            <OverlayTrigger placement={'right'} overlay={ <Tooltip id = {'tooltop-right'}></Tooltip>}>
             <div className="int-area">
               <input type="password" name="passwd" id="passwd" autoComplete="off" onChange={getPwd} required />
               <label htmlFor="pw">PW</label>
+              {passwd === '' ? null : <ShowPwVaild></ShowPwVaild> }
             </div>
+            </OverlayTrigger>
             <div className="int-area">
-              <input type="password" name="pwcheck" id="pwcheck" autoComplete="off" required />
+              <input type="password" name="pwcheck" id="pwcheck" autoComplete="off" onChange={getPwdCk} required />
               <label htmlFor="pwcheck">PW Check</label>
+              {passwd === '' ? null : <ShowPwCk></ShowPwCk> }
             </div>
             <div className="int-area">
               <input type="text" name="name" id="name" autoComplete="off" onChange={getName} required />
@@ -105,10 +143,12 @@ export default function Register() {
             <div className="int-area">
               <input type="tel" name="tel" id="tel" autoComplete="off" min='11' max='11' onChange={getTel} required />
               <label htmlFor="name">TEL</label>
+              {tel === '' ? null : <ShowTelCk></ShowTelCk> }
             </div>
             <div className="int-area" id="int2-area" >
-              <input type="text" name="email" id="email" placeholder="" autoComplete="off" onChange={getEmail} onKeyUp={checkEmail} required />
+              <input type="text" name="email" id="email" placeholder="" autoComplete="off" onChange={getEmail} required />
               <label htmlFor="name">E-mail</label>
+              {email === '' ? null : <ShowEmailCk></ShowEmailCk>}
             </div>
             <div className="int-area" id="int2-area" >
               <input type="text" name="insta" id="insta" placeholder="" onChange={getInsta} autoComplete="off" />
