@@ -1,4 +1,3 @@
-import DB from '../db/db'
 import React from 'react';
 
 export default function userChat(props) {
@@ -15,7 +14,7 @@ export default function userChat(props) {
          {
             props.opponent.map((a, i) => {
                return (
-                  <div className="sex" style={{
+                  <div key= {a} style={{
                      height: '15%', justifyContents: 'center', display: 'flex',
                      justifyContent: 'center',
                      alignItems: 'center'

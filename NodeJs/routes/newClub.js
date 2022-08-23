@@ -27,27 +27,35 @@ router.post('/', async (req, res) => {
             }
          },
       })
-      console.log(user_club[0].dataValues)
-      let user_data = []
+      console.log(user_id)
+      let user_array = []
+      let group_array = []
+      let let_obj = {}
       user_club.map((a, i) => {
-         console.log("datavalues : ", a.dataValues);
-         let StEd = {}
-         let Start = a.dataValues.startDate.split('/')[3].concat(`:${a.dataValues.startDate.split('/')[4]}`)
-         let End = a.dataValues.endDate.split('/')[3].concat(`:${a.dataValues.endDate.split('/')[4]}`)
-         let TODO = a.dataValues.todo
-         let User_name = a.dataValues.nickName
-         StEd["Start"] = Start // ? 시작하는 시각
-         StEd["End"] = End     // ? 끝나는 시각
-         StEd['todo'] = TODO   // ? DB에서 불러온 데이터
-         StEd['user_nickname'] = User_name
-         user_data.push(StEd)  // ? user_data에 데이터를 Push해줌 
+         let groupsStEd = {}
+         let user_StEd = {}
+   
+         if (a.dataValues.cluber === user_id) {
+            detachUser( user_StEd, user_array, a )
+            // 유저의 할일이 담긴곳
+         } else {
+            detachUser( groupsStEd, group_array, a)
+            // 유저의 그룹의 할일이 담긴 곳
+         }
       })
-      console.log(user_data)
-      user_data.sort((a, b) => {
+      let_obj["user_StEd"] = user_array
+      let_obj["group_StEd"] = group_array
+   
+      let_obj.user_StEd.sort((a, b) => {
          return a.Start.split(':')[0] - b.Start.split(':')[0]
       })
-
-      res.status(201).send(user_data)
+      let_obj.group_StEd.sort((a, b) => {
+         return a.Start.split(':')[0] - b.Start.split(':')[0]
+      })
+      // console.log("let_obj : ", let_obj)
+   
+   
+      res.status(201).send(let_obj)
    } catch (error) {
 
       console.log("failed")

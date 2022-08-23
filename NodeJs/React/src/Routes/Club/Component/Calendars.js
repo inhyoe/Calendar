@@ -11,11 +11,9 @@ import DB from '../../db/db'
 import axios from 'axios'
 export default function Calendars(props) {
 
-   let { startDate, setStartDate, endDate, setEndDate, todo, setTodo, user_id, user_grade, user_name, setGroupTodo, onChange, value } = props; // * 받아온 state값
+   let { startDate, setStartDate, endDate, setEndDate, todo, setTodo, user_id, user_grade, user_name, setGroupTodo,setUserTodo, onChange, value } = props; // * 받아온 state값
 
    useEffect(() => {
-      // console.log(Number(startDate))
-      // console.log(endDate)
       if (startDate !== null && endDate !== null) {
          // 시작시간과 끝나는 시간이 null값이 아닐 때
       }
@@ -23,7 +21,8 @@ export default function Calendars(props) {
    useEffect(() => {
       if (Number(startDate) !== 0 && Number(endDate) !== 0) {
          axios.post(`${DB.host}newClub`, { user_id, user_grade, user_name, todo, startDate, endDate }).then((res) => {
-            setGroupTodo(res.data)
+            setGroupTodo(res.data.group_StEd)
+            setUserTodo(res.data.user_StEd)
          })
       }
    }, [startDate, endDate])
@@ -57,8 +56,11 @@ export default function Calendars(props) {
    const compare = (before, after) => {
       let startArr = before.split('/')
       let endArr = after.split('/')
-      if (startArr[3] > endArr[3] || startArr[4] > endArr[4]) {
+      if (startArr[3] > endArr[3]) { // * startArr[3] 은 시간
          return false
+      } else if (startArr[3] === endArr[3]) {
+         if (startArr[4] > endArr[4]) // * startArr[4] 는 분
+            return false
       }
    }
 
@@ -83,7 +85,7 @@ export default function Calendars(props) {
 
    function FormsData(props) { // ? 일정을 표시해주는 컴포넌트 
       // ! console.log("props : ", props); 꼭 확인해봅시다.
-      
+
       return (
          <div id="me">
             <div>StartTime</div>
@@ -109,11 +111,11 @@ export default function Calendars(props) {
             <div className="innerDiv">
                <FormsData value={value} date={StartDate} hour={StartHour} min={StartMin}></FormsData>
                <FormsData value={value} date={EndDate} hour={EndHour} min={EndMin}></FormsData>
-            <div id='me'>
-               <Form.Control ref={inputTodo} className="input-calendar" placeholder="todo" style={{ width: '50%' ,float: "left"}} />
-               <Button variant="success" onClick={() => {
-                  handleDate()
-               }}>Submit</Button>
+               <div id='me'>
+                  <Form.Control ref={inputTodo} className="input-calendar" placeholder="todo" style={{ width: '50%', float: "left" }} />
+                  <Button variant="success" onClick={() => {
+                     handleDate()
+                  }}>Submit</Button>
                </div>
             </div>
          </div>

@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
         }
       }
     }
-    console.log("Last : ", user_list);
+    // console.log("Last : ", user_list);
 
 
   })
@@ -47,12 +47,12 @@ io.on("connection", (socket) => {
   try {
     socket.on("send_message", async (data) => {
       data["socketId"] = socket.id
-      console.log("sended message : ", data);
-      console.log("user_list 는 :", user_list);
+      // console.log("sended message : ", data);
+      // console.log("user_list 는 :", user_list);
 
       // 만약 상대방이 접속하지 않았을 때에는?
       // DB에 단순히 socket.id를 저장하지 말고, data를 저장하자
-      console.log(data.opponent);
+      // console.log(data.opponent);
 
       
         let matchUser = user_list.filter((datas) => {
@@ -62,10 +62,10 @@ io.on("connection", (socket) => {
           return datas.user_id === data.user_id
         })
         // filter는 조건이 맞는 배열 객체를 찾아 배열로 리턴해줌
-        console.log("match User : ", matchUser);
-        console.log("match User2 : " , matchUser2);
+        // console.log("match User : ", matchUser);
+        // console.log("match User2 : " , matchUser2);
         delete data.socketId
-        console.log(data);
+        // console.log(data);
 
       let { user_id, user_name, user_grade, opponent, message } = data;
       await Chat.create(
@@ -94,7 +94,6 @@ io.on("connection", (socket) => {
   }
   socket.on("disconnect", () => {
     socket.disconnect()
-
   });
 
 });
@@ -142,7 +141,6 @@ router.post('/create', async (req, res) => {
 })
 
 router.post('/bringdata' , async (req, res) => {
-  console.log("반응왔음 ");
   let addUser = []
   const { user_id } = req.body
   let searchData = await AddChat.findAll({
@@ -151,13 +149,13 @@ router.post('/bringdata' , async (req, res) => {
     }
   })
   searchData.map( (a,i) => {
-    console.log(a.dataValues)
+    // console.log(a.dataValues)
     if( a.dataValues.addUser === user_id) {
       addUser.push(a.dataValues.addedUser)
     }else{
       addUser.push(a.dataValues.addUser)
     }
-    console.log(addUser);
+    // console.log(addUser);
   })
   res.send(addUser)
 })

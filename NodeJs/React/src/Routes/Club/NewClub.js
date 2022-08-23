@@ -38,6 +38,7 @@ export default function NewClub() {
       user_grade = {user_grade}
       user_name = {user_name}
       setGroupTodo = {setGroupTodo}
+      setUserTodo = {setUserTodo}
       value = {value}
       onChange = {onChange}
       ></Cal>

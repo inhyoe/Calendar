@@ -75,6 +75,11 @@ export default function Register() {
     if(!/^[a-zA-Z0-9._-]{1,}@[0-9a-zA-Z-]{3,}([.][a-zA-Z]{2,3}){1,2}$/.test(email)) 
       return false;
   }
+  function checkPw(){
+    if(!/^[a-zA-Z0-9]/){
+
+    }
+  }
   return (
     <div>
       <center>

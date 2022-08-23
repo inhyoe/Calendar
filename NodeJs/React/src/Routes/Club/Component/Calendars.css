@@ -28,7 +28,8 @@ input.input-calendar.form-control {
    max-width: 25vw;
 }
 #myCalendar{
-   width : 50%;
+   max-width: 25%;
+   min-width : 500px;
    margin: 0 auto;
 }
 #hi{
