@@ -1,25 +1,25 @@
+.td-no {
+   width: 60px;
+   text-align: center;
+}
 
-      .td-no {
-         width: 60px;
-         text-align: center;
-      }
+.td-subject {}
 
-      .td-subject {}
+.td-writer {
+   width: 120px;
+   text-align: center;
+}
 
-      .td-writer {
-         width: 120px;
-         text-align: center;
-      }
+.td-view-count {
+   width: 80px;
+   text-align: center;
+}
 
-      .td-view-count {
-         width: 80px;
-         text-align: center;
-      }
+.td-created-at {
+   width: 200px;
+   text-align: center;
+}
 
-      .td-created-at {
-         width: 200px;
-         text-align: center;
-      }
-      .writer_idx {
-         width : 150px;
-      }
+.writer_idx {
+   width: 150px;
+}

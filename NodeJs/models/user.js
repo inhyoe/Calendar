@@ -19,7 +19,7 @@ module.exports = class User extends Sequelize.Model {
         },
         name: {
           // user Nickname
-          type: Sequelize.STRING(200),
+          type: Sequelize.STRING(100),
           unique: true,
           allowNull: false,
         },
@@ -81,7 +81,6 @@ module.exports = class User extends Sequelize.Model {
     db.User.hasMany(db.AddChat , { foreignKey: "addUser" , sourceKey : "name"})
     db.User.hasMany(db.AddChat , { foreignKey: "addedUser" , sourceKey : "name"})
     db.User.hasMany(db.StartEndClub , { foreignKey: "cluber" , sourceKey : "id"})
-    
     
     
    

@@ -1,10 +1,11 @@
 const Sequelize = require("sequelize");
 
-module.exports = class Notice extends Sequelize.Model {
+module.exports = class Comment extends Sequelize.Model {
    static init(sequelize) {
       return super.init(
          {
-            idx: {
+
+            comment_idx: {
                type: Sequelize.INTEGER.UNSIGNED,
                primaryKey: true,
                allowNull: false,
@@ -20,31 +21,26 @@ module.exports = class Notice extends Sequelize.Model {
                comment: "올린 날짜"
             }
             ,
+            commenter:{
+               type: Sequelize.DataTypes.STRING(20),
+               allowNull: false,
+            },
             grade: {
                // user grade (등급)
                type: Sequelize.STRING(20),
                allowNull: false,
                defaultValue: 1,
             },
-
-            title: {
-               type: Sequelize.STRING(50),
-               allowNull: false,
-            },
-            main_text: {
+            sub_text: {
                type: Sequelize.STRING(4000),
                allowNull: false,
             },
-            view_count:{
-               type : Sequelize.INTEGER.UNSIGNED,
-               defaultValue : 0,
-            }
          },
          {
             sequelize,
             timestamps: false,
-            modelName: "Notice",
-            tableName: "Notice",
+            modelName: "Comment",
+            tableName: "Comment",
             paranoid: false,
             charset: "utf8mb4",
             collate: "utf8mb4_general_ci",
@@ -53,7 +49,6 @@ module.exports = class Notice extends Sequelize.Model {
    }
 
    static associate(db) {
-      db.Notice.hasMany(db.Comment , { foreignKey : "Notice_idx" , targetkey : "idx"})
-      db.Notice.belongsTo(db.User, { foreignKey: "NoticerId", targetKey: "id" })
+      db.Comment.belongsTo(db.Notice, { foreignKey: "Notice_idx", targetKey: "idx" })
    }
 };

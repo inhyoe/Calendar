@@ -24,8 +24,6 @@ export default function Login() {
 
   async function subMit(e) {
     e.preventDefault();
-    // console.log("id는 : ", id) // id 표시
-    // console.log("pw : ", pw) // pw 표시
     
     const user = await axios.post(`${DB.host}login`, { id, pw })
     const user_data = user.data;

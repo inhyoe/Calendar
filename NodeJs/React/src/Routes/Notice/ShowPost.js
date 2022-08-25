@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import DB from '../db/db'
 import NavScroll from '../db/NavFun'
+import Comment from './Comment/Comment'
 import Button from 'react-bootstrap/Button';
+import Footer from '../db/Footer'
 
 export default function ShowPost() {
    let par = useParams()
@@ -19,7 +21,9 @@ export default function ShowPost() {
    
    let [post, setPost] = useState([])
    let grade = sessionStorage.getItem("user_grade")
-   
+   let user_name = sessionStorage.getItem("user_name")
+
+
    function modifyBtn(){
       navigate(`/notice/modify/${params}`)
    }
@@ -37,15 +41,19 @@ export default function ShowPost() {
    // console.log(post.main_text);
 
    return (
-      <div>
+      <div >
          <NavScroll></NavScroll>
          <div className="m-5">
+            <div className = "buttons">
+            { grade === '2' ? <Button onClick = {deleteBtn} variant="outline-info">글삭제</Button> : null }
+            { grade === '2' ? <Button onClick = {modifyBtn} variant="outline-info">글수정</Button> : null }
+            </div>
             <table class="table">
                <thead class="thead-dark">
                   <tr>
                      <th className = "writer_idx" scope="col">글번호 : {post.idx}</th>
                      <th scope="col">글제목 : {post.title}</th>
-                     <th className="td-created-at" scope="col">작성일 : {post.created_at}</th>
+                     <th className="td-created-at" scope="col">작성일 :{post.created_at}</th>
                   </tr>
                </thead>
             </table>
@@ -54,9 +62,11 @@ export default function ShowPost() {
                      {post.main_text}
                   </h5>
                </div>
-            { grade === '2' ? <Button onClick = {deleteBtn} variant="outline-info">글삭제</Button> : null }
-            { grade === '2' ? <Button onClick = {modifyBtn} variant="outline-info">글수정</Button> : null }
          </div>
+         
+         <Comment grade = {grade} user_name = {user_name} params = {params} ></Comment>
+         
+         <Footer></Footer>
       </div>
    )
 }

@@ -12,6 +12,7 @@ const ForgotRouter = require('./routes/forgot');
 const NoticeRouter = require('./routes/notice');
 const ChatRouter = require('./routes/chat');
 const NewClub = require('./routes/newClub');
+const Comment = require('./routes/Comment.js');
 const app = express();
 dotenv.config();
 
@@ -55,6 +56,7 @@ app.use('/login/forgot',ForgotRouter)
 app.use('/notice' , NoticeRouter)
 app.use('/newclub' , NewClub);
 app.use('/chat' , ChatRouter)
+app.use('/comment', Comment)
 
 app.listen(4041, function () {
   console.log('listening on 4041')

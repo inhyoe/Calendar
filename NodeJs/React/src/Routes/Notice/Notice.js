@@ -4,6 +4,7 @@ import DB from '../db/db'
 import NavScroll from '../db/NavFun'
 import Footer from '../db/Footer'
 import UploadPost from './UploadPost'
+
 export default function Notice() {
    // Notice 정보를 먼저 불러 와야 함.
    useEffect(() => {
@@ -12,9 +13,11 @@ export default function Notice() {
    },[])
   return (
     <div>
+      <div>
       <NavScroll></NavScroll>
       <UploadPost></UploadPost>
       <Footer></Footer>
+      </div>
     </div>
   )
 }
