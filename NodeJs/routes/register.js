@@ -5,12 +5,11 @@ const User = require("../models/user");
 
 const router = express.Router();
 
-
+// 会員登録
 router.post('/',async (req,res) => {
    const { passwd } = req.body;
    const hashPwd = await bcrypt.hash(passwd,12);
    let { body } = req
-   console.log('this is tel',body.tel)
 
    try{
       const user = await User.create({
@@ -20,7 +19,7 @@ router.post('/',async (req,res) => {
         tel: body.tel,
         email: body.email,
       })
-      console.log("등록된 유저명", user.name)
+      console.log("登録されたユーザー名", user.name)
       await res.status(201).send(true)
    }catch(e){
       res.send(false)

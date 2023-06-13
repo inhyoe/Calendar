@@ -8,17 +8,18 @@ const Op = sequelize.Op;
 
 
 router.post('/', async (req, res) => {
-   const { user_id, user_grade, user_name, todo, startDate, endDate } = req.body
-   console.log(req.body)
+   const { user_id, user_grade, user_name, inputTodo, startDate, endDate } = req.body
+   console.log("req.body : ", req.body)
    try {
       let user = await newClub.create({
          cluber: user_id,
          startDate,
          endDate,
-         todo,
+         todo: inputTodo,
          nickName: user_name,
          grade: user_grade,
       })
+
       const user_club = await newClub.findAll({
          where: {
             grade: user_grade,
@@ -26,35 +27,34 @@ router.post('/', async (req, res) => {
                [Op.like]: "%" + startDate.substr(0, 10) + "%"
             }
          },
-      })
-      console.log(user_id)
+      }) //? 유저의 
+
       let user_array = []
       let group_array = []
       let let_obj = {}
       user_club.map((a, i) => {
          let groupsStEd = {}
          let user_StEd = {}
-   
+
          if (a.dataValues.cluber === user_id) {
-            detachUser( user_StEd, user_array, a )
+            detachUser(user_StEd, user_array, a)
             // 유저의 할일이 담긴곳
          } else {
-            detachUser( groupsStEd, group_array, a)
+            detachUser(groupsStEd, group_array, a)
             // 유저의 그룹의 할일이 담긴 곳
          }
       })
       let_obj["user_StEd"] = user_array
       let_obj["group_StEd"] = group_array
-   
+
       let_obj.user_StEd.sort((a, b) => {
          return a.Start.split(':')[0] - b.Start.split(':')[0]
       })
       let_obj.group_StEd.sort((a, b) => {
          return a.Start.split(':')[0] - b.Start.split(':')[0]
       })
-      // console.log("let_obj : ", let_obj)
-   
-   
+
+
       res.status(201).send(let_obj)
    } catch (error) {
 
@@ -83,10 +83,10 @@ router.post('/search', async (req, res) => {
       let user_StEd = {}
 
       if (a.dataValues.cluber === user_id) {
-         detachUser( user_StEd, user_array, a )
+         detachUser(user_StEd, user_array, a)
          // 유저의 할일이 담긴곳
       } else {
-         detachUser( groupsStEd, group_array, a)
+         detachUser(groupsStEd, group_array, a)
          // 유저의 그룹의 할일이 담긴 곳
       }
    })

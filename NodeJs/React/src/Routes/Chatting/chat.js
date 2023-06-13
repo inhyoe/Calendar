@@ -21,6 +21,7 @@ export default function chat() {
   const user_id = sessionStorage.getItem("user_id")
   const user_grade = sessionStorage.getItem("user_grade")
   const user_name = sessionStorage.getItem("user_name")
+
   let [firstData, setFirstData] = useState([])
   let [opponent, setOpponent] = useState([])
   let [clickedOp, setClickedOp] = useState('') // 클릭된 상대방
@@ -69,8 +70,8 @@ export default function chat() {
     )
     setOpponent(prev => [...prev, regist.current.value])
   }
-  
-  
+
+
   return (
     <div>
       <NavFun></NavFun>

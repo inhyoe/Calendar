@@ -15,47 +15,46 @@ export default function NewClub() {
   const user_id = sessionStorage.getItem("user_id")
   const user_grade = sessionStorage.getItem("user_grade")
   const user_name = sessionStorage.getItem("user_name")
-  
-  let [startDate , setStartDate] = useState('') // * 시작 시간 입력
-  let [endDate , setEndDate] = useState('') // * 끝나는시간 입력
-  let [todo ,setTodo] = useState('') // * 할일 입력
-  let [groupTodo , setGroupTodo] = useState([]) // *
-  let [userTodo , setUserTodo] = useState([]) // *
+
+  let [startDate, setStartDate] = useState('') // * 시작 시간 입력
+  let [endDate, setEndDate] = useState('') // * 끝나는시간 입력
+  let [todo, setTodo] = useState('') // * 할일 입력
+  let [groupTodo, setGroupTodo] = useState([]) // *
+  let [userTodo, setUserTodo] = useState([]) // *
   let [value, onChange] = useState(new Date());
 
   return (
     <div>
-      // ! 모션은 react-spring을 이용하여 해보자.
       <NavFun></NavFun>
       <div className='mt-5'>
-      <Cal startDate = {startDate} 
-      setEndDate = {setEndDate} 
-      endDate = {endDate} 
-      setStartDate = {setStartDate}
-      todo = {todo}
-      setTodo = {setTodo}
-      user_id = {user_id}
-      user_grade = {user_grade}
-      user_name = {user_name}
-      setGroupTodo = {setGroupTodo}
-      setUserTodo = {setUserTodo}
-      value = {value}
-      onChange = {onChange}
-      ></Cal>
+        <Cal startDate={startDate}
+          setEndDate={setEndDate}
+          endDate={endDate}
+          setStartDate={setStartDate}
+          todo={todo}
+          setTodo={setTodo}
+          user_id={user_id}
+          user_grade={user_grade}
+          user_name={user_name}
+          setGroupTodo={setGroupTodo}
+          setUserTodo={setUserTodo}
+          value={value}
+          onChange={onChange}
+        ></Cal>
       </div>
       <div>
-      <ShowTodo
-        groupTodo = {groupTodo}
-        value = {value}
-        user_grade = {user_grade}
-        user_id = {user_id}
-        setGroupTodo = {setGroupTodo}
-        userTodo = {userTodo}
-        setUserTodo = {setUserTodo}
-      />
+        <ShowTodo
+          groupTodo={groupTodo}
+          value={value}
+          user_grade={user_grade}
+          user_id={user_id}
+          setGroupTodo={setGroupTodo}
+          userTodo={userTodo}
+          setUserTodo={setUserTodo}
+        />
       </div>
       <Footer></Footer>
-      
+
       {/*Cal컴포넌트에서 startDate endDate 관리함. */}
     </div>
   )

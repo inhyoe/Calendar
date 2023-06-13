@@ -59,15 +59,16 @@ export default function Register() {
     e.preventDefault()
     console.log("tel : ", tel)
     console.log("me", (tel).toString().length)
-    if (checkEmail) {
+    if (!checkEmail) {
+      console.log(checkEmail)
       alert('이메일 형식이 맞지 않습니다')
       return false
     }
-    if (checkPw) {
+    if (!checkPw) {
       alert('비밀번호 형식이 맞지 않습니다')
       return false
     }
-    if (telCheck) {
+    if (!telCheck) {
       alert('전화번호 형식이 맞지 않습니다')
       return false
     }
@@ -100,7 +101,7 @@ export default function Register() {
   }
   function ShowEmailCk() {
     if (checkEmail(email) === false) {
-      return (<div>이메일 형식이 같지 않습니다</div>)
+      return (<div>이메일 형식이 같지 않습s니다</div>)
     } else {
       return <div>이메일 형식이 같습니다</div>
     }
@@ -124,12 +125,12 @@ export default function Register() {
             <label htmlFor="id">ID</label>
           </div>
 
-          <OverlayTrigger placement={'right'} 
+          <OverlayTrigger placement={'right'}
             overlay={
-            <Tooltip id={'tooltip-right'}>
-              대문자,소문자,특수문자를 포함해 주세요
-            </Tooltip>
-          }
+              <Tooltip id={'tooltip-right'}>
+                대문자,소문자,특수문자를 포함해 주세요
+              </Tooltip>
+            }
           >
             <div className="int-area">
               <input type="password" name="passwd" id="passwd" autoComplete="off" onChange={getPwd} required />
