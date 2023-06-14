@@ -66,9 +66,16 @@ export default function chat() {
     axios.post(`${DB.host}chat/create`, { user_id, opponent: regist.current.value }).then(
       (res) => {
         console.log(res.data)
+        if (res.data === true) {
+          console.log("res.data : ", res.data)
+          setOpponent(prev => [...prev, regist.current.value])
+        }
+        else {
+          console.log("error")
+          alert("유저명을 확인해주세요!")
+        }
       }
     )
-    setOpponent(prev => [...prev, regist.current.value])
   }
 
 

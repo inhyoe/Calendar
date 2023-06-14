@@ -20,16 +20,17 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.AddChat = AddChat;
+
 db.User = User;
+db.AddChat = AddChat;
 db.Club = Club;
 db.Notice = Notice;
 db.Chat = Chat;
 db.StartEndClub = StartEndClub;
 db.Comment = Comment;
 
-AddChat.init(sequelize);
 User.init(sequelize);
+AddChat.init(sequelize);
 Club.init(sequelize);
 Notice.init(sequelize);
 Chat.init(sequelize);
@@ -42,6 +43,7 @@ Club.associate(db);
 Chat.associate(db);
 AddChat.associate(db);
 StartEndClub.associate(db);
-Comment.associate(db)
+Comment.associate(db);
+AddChat.associate(db);
 
 module.exports = db;

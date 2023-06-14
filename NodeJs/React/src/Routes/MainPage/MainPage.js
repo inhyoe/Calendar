@@ -10,7 +10,6 @@ export default function MainPage() {
       <NavScroll></NavScroll>
       <div id="body">
         <h1>Daily Select</h1>
-        {/* <Link to = '/login' > 로그인 하러 가기 </Link> */}
       </div>
       <Footer></Footer>
     </div>

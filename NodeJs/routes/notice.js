@@ -1,15 +1,11 @@
 const express = require('express');
-const User = require('../models/user');
 const Notice = require('../models/notice');
-const moment = require('moment')
 const sf = require('sf');
-
-// const bcrypt = require("bcrypt");
 
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-   // Id찾기 
+   // IDの検索 
    try {
       let notice = await Notice.findAll(
          {
@@ -17,16 +13,14 @@ router.post('/', async (req, res) => {
             offset: 0
          }
       );
-      notice.map((a,i) => {
+      // 取得したお知らせデータの日付形式を変換
+      notice.map((a, i) => {
          let userTime = notice[i].dataValues.created_at.split(' ')[0]
-         
          userTime = userTime.split('-')
-         
-         userTime = sf("{0}년 {1}월 {2}일",`${userTime[0]}`,`${userTime[1]}`,`${userTime[2]}`)
-         
-         
+         userTime = sf("{0}년 {1}월 {2}일", `${userTime[0]}`, `${userTime[1]}`, `${userTime[2]}`)
          notice[i].dataValues.created_at = userTime
       })
+      // 変換後のデータをレスポンスとして送信
       res.send(notice);
    } catch (error) {
       res.send(error)
@@ -36,7 +30,10 @@ router.post('/', async (req, res) => {
 
 router.post('/writepost', async (req, res) => {
    try {
-      let { NoticerId, user_name , title, main_text } = req.body;
+      // リクエストから必要なデータを抽出
+      let { NoticerId, user_name, title, main_text } = req.body;
+
+      // Noticeモデルに新しいお知らせを作成
       let us = await Notice.create({
          title,
          main_text,
@@ -46,66 +43,75 @@ router.post('/writepost', async (req, res) => {
       res.send(true)
    } catch (error) {
       console.log(error);
-      res.send(false )
+      res.send(false)
    }
 })
 
-router.post('/:idx',async (req, res) => {
+router.post('/:idx', async (req, res) => {
    try {
       const { idx } = req.params;
+
+      // 指定されたidxに該当するお知らせを取得
       let post = await Notice.findOne({
-         where : { idx }
+         where: { idx }
       })
-      
-         let userTime = post.dataValues.created_at.split(' ')[0]
-         userTime = userTime.split('-')
-         userTime = sf("{0}년 {1}월 {2}일",`${userTime[0]}`,`${userTime[1]}`,`${userTime[2]}`)
-         post.dataValues.created_at = userTime
-      
-      console.log("Post 는 ",post);
-      
+      // 取得したお知らせデータの日付形式を変換
+      let userTime = post.dataValues.created_at.split(' ')[0]
+      userTime = userTime.split('-')
+      userTime = sf("{0}년 {1}월 {2}일", `${userTime[0]}`, `${userTime[1]}`, `${userTime[2]}`)
+      post.dataValues.created_at = userTime
+
+      console.log("Post は", post);
+      // 変換後のデータをレスポンスとして送信
       res.send(post)
    } catch (error) {
       console.log(error);
       res.send(error)
    }
 })
-router.post('/modifypost/:idx' , async (req,res) => {
+
+router.post('/modifypost/:idx', async (req, res) => {
    try {
       const idx = req.params.idx
       console.log(idx);
+      // 指定されたidxに該当するお知らせを取得
       let finded = await Notice.findAll({
-         where : { idx } 
+         where: { idx }
       })
-      console.log("Notice : ",finded);
+      console.log("Notice : ", finded);
       res.send(finded)
    } catch (error) {
       console.log(error);
       res.send(error.message)
    }
 })
-router.put('/modifypost/:idx' , (req,res) => {
+
+router.put('/modifypost/:idx', (req, res) => {
    try {
       const { idx } = req.params;
-      let { NoticerId,  title, main_text } = req.body;
+      let { NoticerId, title, main_text } = req.body;
+
+      // 指定されたidxに該当するお知らせを更新
       Notice.update(
-         { NoticerId , title , main_text} ,
-         { where : { idx } }
-       )
-       res.send(true)
+         { NoticerId, title, main_text },
+         { where: { idx } }
+      )
+      res.send(true)
    } catch (error) {
       res.send(false)
    }
 })
 
 
-router.post('/delete/:idx',async (req, res) => {
+router.post('/delete/:idx', async (req, res) => {
    try {
       const { idx } = req.params;
+
+      // 与えられたIDXに該当するお知らせを削除します。
       await Notice.destroy({
-         where : { idx }
+         where: { idx }
       })
-      
+
       res.send(true)
    } catch (error) {
       console.log(error);

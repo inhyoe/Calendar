@@ -12,7 +12,7 @@ import moment from 'moment';
 // 안써도 자동으로 한국 시간을 불러온다. 명확하게 하기 위해 import
 import 'moment/locale/ko';
 import Button from 'react-bootstrap/Button';
-import DB from '../db/db' 
+import DB from '../db/db'
 import NavScroll from '../db/NavFun'
 import SelectTime from './SelectTime'
 import { useNavigate } from 'react-router-dom';
@@ -27,8 +27,7 @@ export default function Club() {
    const user_grade = sessionStorage.getItem("user_grade")
    const user_name = sessionStorage.getItem("user_name")
    let navigate = useNavigate()
-   
-   let [daily, setDaily] = useState('') // 유저가 입력한 날짜 
+
    let [user_data, setUserData] = useState([]) // 유저의 데이터 - 항시 업데이트
    let [InputUserData, setInputUserData] = useState([]) // 유저가 입력한 데이터
    let [timeBoolean, setTimeBoolean] = useState(false) // getBack함수를 실행시키기 위한 임시 변수
@@ -38,7 +37,7 @@ export default function Club() {
    let [falsetrue, setFalseTrue] = useState(false);
    let [tf, setTf] = useState(true);
 
-   
+
    const inputCal = useRef()
 
 
@@ -46,27 +45,22 @@ export default function Club() {
    let array = {}
 
    /* ======================유저 시간 모음 ====================== */
+   // ログインになるかどうか確認するuserEffect
    useEffect(() => {
-      if(user_id === null) {
+      if (user_id === null) {
          alert('Please Login')
          navigate('/login')
       }
-   },[])
+   }, [])
+
+   // 유저가 삭제했을때 발동하는 userEffect
    useEffect(() => {
       if (falsetrue) {
          const users_data = axios.post(`${DB.host}club/del`, { deleteArray })
       }
-      // console.log("============================up")
-      // console.log("falsetrue :" , falsetrue)
-      // console.log("useEffect in changeArray : " , changeArray)
-      // setArray(changeArray)
       array = changeArray
-      
-      // console.log("useEffect in array : " , array)
-      // console.log("useEffect in DelArray :" , deleteArray)
-      // console.log("============================downs")
    }, [deleteArray])
-   
+
    useEffect(() => {
       async function users_datas() {
          const users_data = await axios.post(`${DB.host}club/request`, { user_grade })
@@ -79,7 +73,7 @@ export default function Club() {
       }
       users_datas()
       array = changeArray
-      
+
    }, [InputUserData])
    useEffect(() => {
       if (tf === false) {
@@ -89,20 +83,20 @@ export default function Club() {
          overLapTimeDelUser()
          matchUserTime()
       }
-      console.log("tf값",tf);
+      console.log("tf값", tf);
    }, [tf])
 
    async function submit(e) {
       e.preventDefault();
       let toDo = inputCal.current.value
-      let Input = [toDo, daily, user_id, user_grade, user_name, nowDate]
+      let Input = [toDo, user_id, user_grade, user_name, nowDate]
       // setToDo(toDo);
       var DATE = moment()
       let nowDate = DATE.format("YY/MM/DD/HH/mm/ss")
-      const users_data = await axios.post(`${DB.host}club`, { toDo, daily, user_id, user_grade, user_name, nowDate })
-      
+      const users_data = await axios.post(`${DB.host}club`, { toDo, user_id, user_grade, user_name, nowDate })
+
       setInputUserData(Input)
-      setUserData(users_data.data) 
+      setUserData(users_data.data)
       setChangeArray(array)
 
       if (users_data.data == false) {
@@ -111,70 +105,49 @@ export default function Club() {
       setTf(true)
       inputCal.current.value = ''
    }
-   
+
    function overLapTimeDelUser() { // 유저간 타임이 맞는 함수
       let timeData = []  // 중복이 있는 유저의 시간
       user_data.map((a, i) => {
          timeData.push(user_data[i].date)
       })
-      
+
       const set = new Set(timeData) // set객체 이용
       setUserTime([...set]) // 중복 제거
    }
 
    function matchUserTime() {
-      // console.log("matchUserTime user_data : ", user_data)
+
       userTime.map((a, i) => {
-         
          let changedKey = userTime[i] // key값
          let changedValue = [] // value값
-         // console.log("matchUserTime in user_data : ", user_data)   
-         // console.log("matchUserTime in user_data.length", user_data.length)
-         for (let j = 0; j < user_data.length; j++) {
 
+         for (let j = 0; j < user_data.length; j++) {
             if (userTime[i] === user_data[j].date)
                changedValue.push({ key: user_data[j].key_number, name: user_data[j].name, todo: user_data[j].todo })
          }
-         // console.log();
-         // updateValue[changedKey] = changedValue
-         // console.log("upValue : ",updateValue)
-         
-         // console.log("myarray : ",myarray);
-         
          array[changedKey] = changedValue
-         
       })
-      
-      // console.log("matchUserTime in user_array : ", array)
    }
 
 
    /* 시간대 : [ [시간대에 맞는 유저의 이름 , 할일] ,
                [시간대에 맞는 유저의 이름 , 할일] ] */
 
-   function deleteCal(i, k, userTime) { // i = forLoop outArray ,k = changeArray.map 
-      // console.log("i : ", i, "k : ", k)
-      // console.log(userTime[i][k])
-      // console.log("before Array", array)
-      // console.log(`array[${userTime[i]}][${k}]는 :`, array[userTime[i]][k])
+   function deleteCal(i, k, userTime) {
       let result = array[userTime[i]].splice(k, 1)
-      // console.log("result : ",result)
-      // console.log("array : ", array)
       let copyArray = array
 
       setChangeArray(copyArray)
       setDeleteArray(result)
       if (falsetrue === false)
          setFalseTrue(true)
-
    }
+
    function Forloop() {
       console.log("forLoop Run");
       let TalbeData = []
-      // console.log("ForLoop User :", user_data)
-      // console.log("ForLoop realNowTime : ", realNowTime)
-      // console.log("ForLoop userTime : ", userTime)
-      
+
       for (let i = 0; i < Object.keys(changeArray).length; i++) {
          // console.log('ForLoop in for Run!')
          TalbeData.push(<>
@@ -249,7 +222,7 @@ export default function Club() {
          <NavScroll></NavScroll>
          {/* 몇월 몇일에 어떤 사람이 어떤 내용을 남겼는지 확인해 주세요. */}
          <form>
-            
+
             <input ref={inputCal} placeholder='일정을 입력해 주세요'></input>
             <Button variant="outline-primary" type='submit' onClick={submit}>Submit</Button>
          </form>
@@ -272,7 +245,7 @@ export default function Club() {
                timeBoolean == true ? setTimeBoolean(false) : setTimeBoolean(true);
 
             }}>{moment(value).format("YYYY/MM/DD")} </button>
-            {timeBoolean == true ? <SelectTime></SelectTime> : null}   
+            {timeBoolean == true ? <SelectTime></SelectTime> : null}
          </div>
          {timeBoolean == true ? <GetBack></GetBack> : null}
          <Forloop ></Forloop>

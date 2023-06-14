@@ -14,8 +14,8 @@ export default function ShowTodo(props) {
 
    }, [value])
    /**
-   * @param {Array} wTodo 누가할지(who's Todo)
-   * @param {Object} Time 시간값(Times)
+   * @param {Array} wTodo 誰がする(who's Todo)
+   * @param {Object} Time 時間(Times)
    */
    function WhatTodo({ wTodo, Time, who }) {
       console.log(wTodo)

@@ -1,16 +1,20 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import DB from '../db/db'
-import NavScroll from '../db/NavFun'
-import Comment from './Comment/Comment'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import DB from '../db/db';
+import NavScroll from '../db/NavFun';
+import Comment from './Comment/Comment';
 import Button from 'react-bootstrap/Button';
-import Footer from '../db/Footer'
+import Footer from '../db/Footer';
 
 export default function ShowPost() {
    let par = useParams()
    let params = par["*"]
-   let navigate = useNavigate()
+   const navigate = useNavigate();
+   const [post, setPost] = useState([]);
+   const grade = sessionStorage.getItem('user_grade');
+   const user_name = sessionStorage.getItem('user_name');
+
    useEffect(() => {
       axios.post(`${DB.host}notice/${params}`).then(
          (res) => {
@@ -18,55 +22,68 @@ export default function ShowPost() {
          }
       )
    }, [])
-   
-   let [post, setPost] = useState([])
-   let grade = sessionStorage.getItem("user_grade")
-   let user_name = sessionStorage.getItem("user_name")
 
-
-   function modifyBtn(){
+   // ポスト修正ボタンをクリックするとページ移動
+   function modifyBtn() {
       navigate(`/notice/modify/${params}`)
    }
-   function deleteBtn(){
-      axios.post(`${DB.host}notice/delete/${params}`).then((res) => {
-         if(res.data === true){
-            alert('글이 삭제되었습니다')
-            navigate('/notice')
-         }else{
-            alert('알수없는 오류로 글이 삭제되지 않았습니다')
-            navigate('/notice')
+
+   // ポスト削除ボタンをクリックするとリクエスト送信
+   function deleteBtn() {
+      axios.post(`${DB.host}notice/delete/${'*'}`).then((res) => {
+         if (res.data === true) {
+            alert('投稿が削除されました');
+            navigate('/notice');
+         } else {
+            alert('不明なエラーのため、投稿が削除されませんでした');
+            navigate('/notice');
          }
-      })
+      });
    }
-   // console.log(post.main_text);
 
    return (
-      <div >
-         <NavScroll></NavScroll>
+      <div>
+         <NavScroll />
+         {console.log(grade)}
+         {console.log("post : ", post)}
          <div className="m-5">
-            <div className = "buttons">
-            { grade === '2' ? <Button onClick = {deleteBtn} variant="outline-info">글삭제</Button> : null }
-            { grade === '2' ? <Button onClick = {modifyBtn} variant="outline-info">글수정</Button> : null }
+            <div className="buttons">
+               {/* 管理者レベルが2の場合にのみ、投稿削除ボタンを表示 */}
+               {grade === '2' && (
+                  <Button onClick={deleteBtn} variant="outline-info">
+                     ポスト削除
+                  </Button>
+               )}
+               {/* 管理者レベルが2の場合にのみ、投稿編集ボタンを表示 */}
+               {grade === '2' && (
+                  <Button onClick={modifyBtn} variant="outline-info">
+                     ポスト修正
+                  </Button>
+               )}
             </div>
-            <table class="table">
-               <thead class="thead-dark">
+
+            <table className="table">
+               <thead className="thead-dark">
                   <tr>
-                     <th className = "writer_idx" scope="col">글번호 : {post.idx}</th>
-                     <th scope="col">글제목 : {post.title}</th>
-                     <th className="td-created-at" scope="col">작성일 :{post.created_at}</th>
+                     <th className="writer_idx" scope="col">
+                        ポスト番号: {post.idx}
+                     </th>
+                     <th scope="col">タイトル: {post.title}</th>
+                     <th className="td-created-at" scope="col">
+                        作成日: {post.created_at}
+                     </th>
                   </tr>
                </thead>
             </table>
-               <div className='w-100'>
-                  <h5 className='m-5'>
-                     {post.main_text}
-                  </h5>
-               </div>
+
+            <div className="w-100">
+               <h5 className="m-5">{post.main_text}</h5>
+            </div>
          </div>
-         
-         <Comment grade = {grade} user_name = {user_name} params = {params} ></Comment>
-         
-         <Footer></Footer>
+
+         <Comment grade={grade} user_name={user_name} params={'*'} />
+
+         <Footer />
       </div>
-   )
+   );
 }

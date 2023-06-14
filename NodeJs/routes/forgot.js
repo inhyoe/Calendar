@@ -7,9 +7,9 @@ const router = express.Router();
 
 
 router.post('/id', async (req, res) => {
-   // Id찾기 
+   // Id探す
    try {
-      console.log('반응옴')
+      console.log('/id router react')
       const { name, grade } = req.body
       const user = await User.findOne({ where: { name, grade } })
 
@@ -21,19 +21,16 @@ router.post('/id', async (req, res) => {
 }
 )
 router.post('/pw', async (req, res) => {
-   // Id찾기 
+   // Pw探す 
    try {
-      console.log('반응옴pw')
+      console.log('/pw router react')
       const { name, grade, pw } = req.body
       const user = await User.findOne({ where: { name, grade } })
 
       console.log(user.dataValues)
       console.log(pw)
-      const hashPwd = await bcrypt.hash( pw , 12);
-      
-      await User.update( {passwd : hashPwd}, { where: { name } })
-      
-      
+      const hashPwd = await bcrypt.hash(pw, 12);
+      await User.update({ passwd: hashPwd }, { where: { name } })
 
       res.send(true)
    } catch (error) {

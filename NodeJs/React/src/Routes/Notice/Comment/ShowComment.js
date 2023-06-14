@@ -13,17 +13,16 @@ export default function ShowComment(props) {
       })
    }, [])
    /**
-    * 글 제거하는 함수
+    * コメント削除関数
     * @param {Object} a 
     */
    function onClicked(user_array) {
       let comment_idx = user_array.comment_idx
       axios.delete(`${myDB.host}comment/delete/${params}`, { data: { comment_idx, user_name } }).then(res => {
-         // 혹시나 모를 변수에 대비
          if (res.data.result === true)
             setComment(res.data.comment)
          else
-            alert('올바르지 않은 형식입니다.')
+            alert('正しくない形式です。')
       })
    }
    return (
@@ -43,11 +42,11 @@ export default function ShowComment(props) {
                         <td>{a.commenter}</td>
                         <td>{a.sub_text}</td>
                         <td class="timeZone">{a.created_at}
-                        {a.commenter === user_name ? <button type="button" class="btn-close" aria-label="Close" onClick={() => {
-                           onClicked(a)
-                        }}></button> : null}
+                           {a.commenter === user_name ? <button type="button" class="btn-close" aria-label="Close" onClick={() => {
+                              onClicked(a)
+                           }}></button> : null}
                         </td>
-                        
+
                      </tr>)
                })
             }

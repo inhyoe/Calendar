@@ -1,21 +1,20 @@
 const Sequelize = require("sequelize");
-
 module.exports = class AddChat extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-         addUser :{
-            type : Sequelize.DataTypes.STRING(20),
-            allowNull : false,
-            primaryKey : true,
-         },
-         addedUser : {
-            type : Sequelize.DataTypes.STRING(20),
-            allowNull : false,
-            primaryKey : true
-         }
-         ,
-        
+        addUser: {
+          type: Sequelize.DataTypes.STRING(20),
+          allowNull: false,
+          primaryKey: true,
+        },
+        addedUser: {
+          type: Sequelize.DataTypes.STRING(20),
+          allowNull: false,
+          primaryKey: true
+        }
+        ,
+
       },
       {
         sequelize,
@@ -29,8 +28,9 @@ module.exports = class AddChat extends Sequelize.Model {
     );
   }
 
+  // ユーザーテーブルとの関係
   static associate(db) {
-    db.AddChat.belongsTo(db.User , { foreignKey: "addUser" , targetKey : "name"})
-    db.AddChat.belongsTo(db.User , { foreignKey: "addedUser" , targetKey : "name"})
+    db.AddChat.belongsTo(db.User, { foreignKey: "addUser", targetKey: "name" })
+    db.AddChat.belongsTo(db.User, { foreignKey: "addedUser", targetKey: "name" })
   }
 };

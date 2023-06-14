@@ -1,12 +1,11 @@
 const express = require('express');
 const newClub = require('../models/startEndClub')
-const bcrypt = require("bcrypt");
 const router = express.Router();
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
 
 
-
+// ユーザーのスケジュールを作成し、グループのタスクも取り込むルーター。
 router.post('/', async (req, res) => {
    const { user_id, user_grade, user_name, inputTodo, startDate, endDate } = req.body
    console.log("req.body : ", req.body)
@@ -27,7 +26,7 @@ router.post('/', async (req, res) => {
                [Op.like]: "%" + startDate.substr(0, 10) + "%"
             }
          },
-      }) //? 유저의 
+      })
 
       let user_array = []
       let group_array = []
@@ -54,7 +53,7 @@ router.post('/', async (req, res) => {
          return a.Start.split(':')[0] - b.Start.split(':')[0]
       })
 
-
+      console.log(let_obj)
       res.status(201).send(let_obj)
    } catch (error) {
 
@@ -64,6 +63,9 @@ router.post('/', async (req, res) => {
       res.send(error.message)
    }
 })
+
+
+
 router.post('/search', async (req, res) => {
    const { user_grade, startDate, user_id } = req.body
    const user_club = await newClub.findAll({
@@ -84,10 +86,10 @@ router.post('/search', async (req, res) => {
 
       if (a.dataValues.cluber === user_id) {
          detachUser(user_StEd, user_array, a)
-         // 유저의 할일이 담긴곳
+         // ユーザーのやることが詰まった場所
       } else {
          detachUser(groupsStEd, group_array, a)
-         // 유저의 그룹의 할일이 담긴 곳
+         // ユーザーのグループのやることが詰まった場所
       }
    })
    let_obj["user_StEd"] = user_array

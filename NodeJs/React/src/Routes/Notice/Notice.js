@@ -6,17 +6,16 @@ import Footer from '../db/Footer'
 import UploadPost from './UploadPost'
 
 export default function Notice() {
-   // Notice 정보를 먼저 불러 와야 함.
-   useEffect(() => {
-      axios.post(`${DB.host}notice`)
-      console.log("im runnning");
-   },[])
+  useEffect(() => {
+    axios.post(`${DB.host}notice`)
+    console.log("im runnning");
+  }, [])
   return (
     <div>
       <div>
-      <NavScroll></NavScroll>
-      <UploadPost></UploadPost>
-      <Footer></Footer>
+        <NavScroll></NavScroll>
+        <UploadPost></UploadPost>
+        <Footer></Footer>
       </div>
     </div>
   )

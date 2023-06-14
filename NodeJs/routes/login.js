@@ -1,13 +1,10 @@
 const express = require('express');
-
-
 const User = require('../models/user')
 const bcrypt = require("bcrypt");
 
 const router = express.Router();
 
-
-
+// ログインを担当するルーター
 router.post('/', async (req, res) => {
    try {
       const user = await User.findOne({ where: { id: req.body.id } })
@@ -21,9 +18,9 @@ router.post('/', async (req, res) => {
          }
          return res.send("pw")
 
-      }else if(user == null)
-      return res.send(false)
-   
+      } else if (user == null)
+         return res.send(false)
+
    }
    catch (err) {
       return false
@@ -32,7 +29,7 @@ router.post('/', async (req, res) => {
 
 )
 
-router.post( '/logined', async (req,res) => {
+router.post('/logined', async (req, res) => {
 
 
 })

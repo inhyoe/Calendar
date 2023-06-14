@@ -1,15 +1,10 @@
 const express = require('express');
 const club = require('../models/club')
-
-
-const bcrypt = require("bcrypt");
-
 const router = express.Router();
 
-
-
+// チームメンバの
 router.post('/', async (req, res) => {
-   const { toDo, user_id, user_grade, user_name, nowDate, daily } = req.body
+   const { toDo, user_id, user_grade, user_name, nowDate } = req.body
    console.log(req.body)
    try {
       let user = await club.create({
@@ -73,9 +68,14 @@ router.post('/request', async (req, res) => {
 
 router.post('/del', async (req, res) => {
    const { deleteArray } = req.body
-   console.log(deleteArray)
-   console.log(deleteArray[0].key)
-   const delUpdate = await club.destroy({ where: { key_number: deleteArray[0].key } })
-   res.send()
+   try {
+      console.log(deleteArray)
+      console.log(deleteArray[0].key)
+      const delUpdate = await club.destroy({ where: { key_number: deleteArray[0].key } })
+      res.send(true)
+   } catch (error) {
+      res.send(false)
+   }
+
 })
 module.exports = router;

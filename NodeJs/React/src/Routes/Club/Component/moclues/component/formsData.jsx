@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Form from "react-bootstrap/Form";
 import moment from "moment";
 import "moment/locale/ko";

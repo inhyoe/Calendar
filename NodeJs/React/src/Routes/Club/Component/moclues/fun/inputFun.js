@@ -11,7 +11,7 @@ export default function inputFun(SD, SH, SM) {
       let sd = SD.current.value // * 날자
       let sh = SH.current.value // * 시간
       let sm = SM.current.value // * 분
-      if (sd == NaN || sh == NaN || sm === NaN) {
+      if (isNaN(sd) || isNaN(sh) || isNaN(sm)) {
          SH.current.value = ''
          SM.current.value = ''
          return false

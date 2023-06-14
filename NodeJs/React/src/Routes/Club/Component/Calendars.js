@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 // 안써도 자동으로 한국 시간을 불러온다. 명확하게 하기 위해 import
@@ -14,13 +14,10 @@ import handleDate from './moclues/fun/handelDate';
 
 export default function Calendars(props) {
 
-   let { startDate, setStartDate, endDate, setEndDate, todo, setTodo, user_id, user_grade, user_name, setGroupTodo, setUserTodo, onChange, value } = props; // * 받아온 state값
+   let { startDate, setStartDate, endDate, setEndDate, setTodo, user_id, user_grade, user_name, setGroupTodo, setUserTodo, onChange, value } = props; // * 받아온 state값
 
-   useEffect(() => {
-      if (startDate !== null && endDate !== null) {
-         // 시작시간과 끝나는 시간이 null값이 아닐 때
-      }
-   }, [props.startDate])
+   // handleDate関数でstartDateとendDateが変わる時に実行されるuseEffect。
+   // リアルタイムで変化するように見せるためにuseEffectを使う。
    useEffect(() => {
       if (Number(startDate) !== 0 && Number(endDate) !== 0) {
 
@@ -28,6 +25,10 @@ export default function Calendars(props) {
             setGroupTodo(res.data.group_StEd)
             setUserTodo(res.data.user_StEd)
          })
+         startHour = 0
+         startMin = 0
+         endHour = 0
+         endDate = 0
       }
    }, [startDate, endDate])
 

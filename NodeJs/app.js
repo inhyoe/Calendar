@@ -22,7 +22,7 @@ const { sequelize } = require("./models");
 sequelize
   .sync({ force: false })
   // sequelize
-  //   .sync({ force: true })
+  // .sync({ force: true })
   .then(() => {
     console.log("데이터베이스 연결 성공");
   })
@@ -52,24 +52,21 @@ app.use(cors());
 app.use('/login', LoginRouter)
 app.use('/register', RegisterRouter);
 app.use('/club', clubRouter);
-app.use('/login/forgot',ForgotRouter)
-app.use('/notice' , NoticeRouter)
-app.use('/newclub' , NewClub);
-app.use('/chat' , ChatRouter)
+app.use('/login/forgot', ForgotRouter)
+app.use('/notice', NoticeRouter)
+app.use('/newclub', NewClub);
+app.use('/chat', ChatRouter)
 app.use('/comment', Comment)
 
 app.listen(4041, function () {
   console.log('listening on 4041')
-}); 
+});
 
-app.get('/',function(req,res) {
-   res.sendFile(path.join(__dirname, 'React/build/index.html'));
-   console.log("it's me!")
-})
-app.post('/', (req,res) => {
-   console.log("why me?")
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'React/build/index.html'));
+  console.log("it's me!")
 })
 
-app.get('*', (req,res) =>{
-   res.sendFile(path.join(__dirname, 'React/build/index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'React/build/index.html'));
 })
